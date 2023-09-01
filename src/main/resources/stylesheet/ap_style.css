@@ -1,0 +1,23 @@
+.background_class {
+    -fx-background-color: #282a36;
+}
+
+.combo-box-base {
+    -fx-background-color: #bd93f9;
+}
+
+.text-field {
+    -fx-text-fill: #bd93f9;
+}
+
+.label {
+    -fx-text-fill: #f8f8f2;
+}
+
+.button {
+    -fx-background-color: #bd93f9;
+}
+
+.r2tt-error {
+    -fx-text-fill: #ff5555;
+}
