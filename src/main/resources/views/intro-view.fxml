@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -14,74 +14,92 @@
 
 <FlowPane alignment="CENTER" columnHalignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background_class" stylesheets="@../stylesheet/ap_style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.chrismharris.main.IntroController">
    <children>
-      <VBox alignment="CENTER" spacing="60.0">
+      <HBox>
          <children>
-            <Label text="Album Postr: The Album Poster Generator">
-               <font>
-                  <Font size="35.0" />
-               </font>
-            </Label>
-            <VBox alignment="BOTTOM_CENTER">
+            <VBox alignment="CENTER">
                <children>
-                  <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="600.0" spacing="15.0" stylesheets="@../stylesheet/ap_style.css">
+                  <Label text="Album Postr: The Album Poster Generator" textAlignment="CENTER">
+                     <font>
+                        <Font name="Montserrat Medium" size="25.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" spacing="10.0">
                      <children>
-                        <Label stylesheets="@../stylesheet/ap_style.css" text="Post URL" textOverrun="CLIP" HBox.hgrow="ALWAYS">
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/javafx_icon.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/spotify_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Made with JavaFX and the Spotify API">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="Montserrat Medium" size="12.0" />
                            </font>
                         </Label>
-                        <TextField maxWidth="-Infinity" minWidth="50.0" prefWidth="350.0" promptText="For a custom post, enter URL here" stylesheets="@../stylesheet/ap_style.css" HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" style="-fx-background-color: #bd93f9;" stylesheets="@../stylesheet/ap_style.css" text="Load Post" HBox.hgrow="ALWAYS" />
                      </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
                   </HBox>
-                  <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="600.0" spacing="15.0" stylesheets="@../stylesheet/ap_style.css">
+                  <VBox alignment="BOTTOM_CENTER">
                      <children>
-                        <Label stylesheets="@../stylesheet/ap_style.css" text="r/" textOverrun="CLIP" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                        <ComboBox fx:id="subredditSelection" prefWidth="150.0" promptText="Choose A Subreddit" stylesheets="@../stylesheet/ap_style.css">
-                           <items>
-                              <FXCollections fx:factory="observableArrayList">
-                                 <String fx:value="AskReddit" />
-                                 <String fx:value="TIFU" />
-                                 <String fx:value="TodayILearned" />
-                                 <String fx:value="AmITheAsshole" />
-                                 <String fx:value="TrueOffMyChest" />
-                                 <String fx:value="Custom" />
-                              </FXCollections>
-                           </items>
-                        </ComboBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox fx:id="customSubredditBox" alignment="TOP_CENTER" disable="true" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="600.0" spacing="15.0" stylesheets="@../stylesheet/ap_style.css" visible="false">
-                     <children>
-                        <TextField fx:id="customSubredditField" alignment="CENTER" maxWidth="-Infinity" minWidth="50.0" prefWidth="175.0" promptText="Enter Custom Subreddit" stylesheets="@../stylesheet/ap_style.css" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="customSubredditError" alignment="CENTER" minHeight="0.0" minWidth="-Infinity" prefHeight="46.0" prefWidth="153.0" styleClass="r2tt-error" stylesheets="@../stylesheet/ap_style.css" text="Please enter a subreddit" textAlignment="CENTER" textFill="#ff5555" wrapText="true" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets bottom="5.0" />
-                           </HBox.margin>
+                        <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="600.0" spacing="15.0" stylesheets="@../stylesheet/ap_style.css">
+                           <children>
+                              <Label stylesheets="@../stylesheet/ap_style.css" text="Search for Album" textOverrun="CLIP" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="searchQuery" maxWidth="-Infinity" minWidth="50.0" prefWidth="200.0" promptText="Search..." stylesheets="@../stylesheet/ap_style.css" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font name="Montserrat Regular" size="12.0"  />
+                                 </font>
+                              </TextField>
+                           </children>
                            <padding>
-                              <Insets bottom="5.0" top="5.0" />
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
-                        </Label>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="600.0" spacing="15.0" stylesheets="@../stylesheet/ap_style.css">
+                           <children>
+                              <Button fx:id="searchButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Search">
+                                 <font>
+                                    <Font name="Montserrat Regular" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                        <HBox fx:id="customSubredditBox" alignment="TOP_CENTER" disable="true" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="600.0" spacing="15.0" stylesheets="@../stylesheet/ap_style.css" visible="false">
+                           <children>
+                              <TextField fx:id="customSubredditField" alignment="CENTER" maxWidth="-Infinity" minWidth="50.0" prefWidth="175.0" promptText="Enter Custom Subreddit" stylesheets="@../stylesheet/ap_style.css" HBox.hgrow="ALWAYS" />
+                              <Label fx:id="customSubredditError" alignment="CENTER" minHeight="0.0" minWidth="-Infinity" prefHeight="46.0" prefWidth="153.0" styleClass="r2tt-error" stylesheets="@../stylesheet/ap_style.css" text="Please enter a subreddit" textAlignment="CENTER" textFill="#ff5555" wrapText="true" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
                      </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </HBox>
+                  </VBox>
                </children>
             </VBox>
-            <Button alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Next" />
          </children>
-      </VBox>
+      </HBox>
+      <TableView fx:id="albumTableView" prefHeight="220.0" prefWidth="600.0">
+         <FlowPane.margin>
+            <Insets top="-70.0" />
+         </FlowPane.margin>
+      </TableView>
    </children>
    <padding>
       <Insets bottom="20.0" />
