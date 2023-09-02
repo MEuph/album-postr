@@ -15,6 +15,8 @@ public class PostrAlbum {
     private final SimpleStringProperty releaseDate;
     private final SimpleObjectProperty<ImageView> albumArt;
 
+    private String albumArtUrl;
+
     public PostrAlbum(String name, ArtistSimplified[] artists, String releaseDate, Image art) {
         this.name = new SimpleStringProperty(name);
         StringJoiner joiner = new StringJoiner(", ");
@@ -23,7 +25,8 @@ public class PostrAlbum {
         }
         this.artists = new SimpleStringProperty(joiner.toString());
         this.releaseDate = new SimpleStringProperty(releaseDate);
-        ImageView unprocessed = new ImageView(new javafx.scene.image.Image(art.getUrl(), 48, 48, true, false));
+        this.albumArtUrl = art.getUrl();
+        ImageView unprocessed = new ImageView(new javafx.scene.image.Image(albumArtUrl, 48, 48, true, false));
         this.albumArt = new SimpleObjectProperty<ImageView>(unprocessed);
         System.out.println("url: " + art.getUrl());
     }
@@ -61,7 +64,12 @@ public class PostrAlbum {
     }
 
     public void setAlbumArt(Image art) {
-        this.albumArt.set(new ImageView(new javafx.scene.image.Image(art.getUrl())));
+        this.albumArtUrl = art.getUrl();
+        this.albumArt.set(new ImageView(new javafx.scene.image.Image(albumArtUrl)));
+    }
+
+    public String getAlbumArtUrl() {
+        return albumArtUrl;
     }
 
     @Override

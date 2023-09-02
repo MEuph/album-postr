@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -160,8 +161,22 @@ public class IntroController {
     }
 
     public static void continueWithSelectedAlbum() {
+        // TODO: Move this to its own Application class and auto-populate fields in the application
         // TODO: Generate image, then open new window to edit and save generated image
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    AlbumPostrApplication.class.getResource("/views/editor-view.fxml")
+            );
+            Stage stage = new Stage();
+            Scene scene = null;
+            scene = new Scene(fxmlLoader.load(), 600, 400);
+            stage.setTitle("Postr Editor");
+            stage.setScene(scene);
+            stage.setResizable(false);
 
-        System.out.println(IntroController.currentlySelected.toString());
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
