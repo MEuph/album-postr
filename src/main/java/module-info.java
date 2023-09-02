@@ -9,5 +9,7 @@ module R2TT.main {
     requires org.apache.httpcomponents.core5.httpcore5;
 
     opens dev.chrismharris.main;
+    opens dev.chrismharris.album;
+    opens dev.chrismharris.table;
 
 }

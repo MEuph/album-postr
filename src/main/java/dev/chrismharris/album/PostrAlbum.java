@@ -1,4 +1,4 @@
-package dev.chrismharris.main;
+package dev.chrismharris.album;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

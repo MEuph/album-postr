@@ -1,4 +1,4 @@
-package dev.chrismharris.main;
+package dev.chrismharris.album;
 
 import javafx.scene.image.ImageView;
 

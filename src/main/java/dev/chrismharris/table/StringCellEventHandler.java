@@ -1,5 +1,7 @@
-package dev.chrismharris.main;
+package dev.chrismharris.table;
 
+import dev.chrismharris.album.PostrAlbum;
+import dev.chrismharris.main.IntroController;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableCell;
 import javafx.scene.input.MouseEvent;

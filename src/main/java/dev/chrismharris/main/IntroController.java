@@ -1,5 +1,8 @@
 package dev.chrismharris.main;
 
+import dev.chrismharris.album.PostrAlbum;
+import dev.chrismharris.table.StringCellEventHandler;
+import dev.chrismharris.table.StringTableCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,7 +34,7 @@ public class IntroController {
 
     @FXML
     TableView<PostrAlbum> albumTableView = new TableView<>();
-    static ObservableList<PostrAlbum> albumList = FXCollections.observableArrayList();
+    public static ObservableList<PostrAlbum> albumList = FXCollections.observableArrayList();
 
     private static final String clientId = Keys.CLIENT_ID;
     private static final String clientSecret = Keys.CLIENT_SECRET;

@@ -1,5 +1,6 @@
-package dev.chrismharris.main;
+package dev.chrismharris.table;
 
+import dev.chrismharris.album.PostrAlbum;
 import javafx.scene.control.TableCell;
 
 public class StringTableCell extends TableCell<PostrAlbum, String> {
