@@ -3,7 +3,7 @@ package dev.chrismharris.table;
 import dev.chrismharris.album.PostrAlbum;
 import javafx.scene.control.TableCell;
 
-public class StringTableCell extends TableCell<PostrAlbum, String> {
+public class AlbumTableCell extends TableCell<PostrAlbum, String> {
 
     @Override
     protected void updateItem(String item, boolean empty) {

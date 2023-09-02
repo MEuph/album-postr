@@ -3,7 +3,6 @@ package dev.chrismharris.album;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
-import se.michaelthelin.spotify.model_objects.specification.Artist;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Image;
 
@@ -14,7 +13,6 @@ public class PostrAlbum {
     private final SimpleStringProperty name;
     private final SimpleStringProperty artists;
     private final SimpleStringProperty releaseDate;
-
     private final SimpleObjectProperty<ImageView> albumArt;
 
     public PostrAlbum(String name, ArtistSimplified[] artists, String releaseDate, Image art) {
@@ -64,5 +62,18 @@ public class PostrAlbum {
 
     public void setAlbumArt(Image art) {
         this.albumArt.set(new ImageView(new javafx.scene.image.Image(art.getUrl())));
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(getName())
+                .append("\n\tArtists: ")
+                .append("\n\t\t")
+                .append(getArtists())
+                .append("\n\t")
+                .append(getReleaseDate())
+                .append("\n\t")
+                .append(getAlbumArt().getImage().getUrl()).toString();
     }
 }

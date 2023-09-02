@@ -1,17 +1,24 @@
 package dev.chrismharris.main;
 
 import dev.chrismharris.album.PostrAlbum;
-import dev.chrismharris.table.StringCellEventHandler;
-import dev.chrismharris.table.StringTableCell;
+import dev.chrismharris.table.AlbumCellKeyHandler;
+import dev.chrismharris.table.AlbumCellMouseHandler;
+import dev.chrismharris.table.AlbumTableCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -46,6 +53,8 @@ public class IntroController {
     private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
             .build();
 
+    private static PostrAlbum currentlySelected;
+
     public static void clientCredentials_Sync() {
         try {
             final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
@@ -73,16 +82,6 @@ public class IntroController {
             }
             for (AlbumSimplified a : albums) {
                 albumList.add(new PostrAlbum(a.getName(), a.getArtists(), a.getReleaseDate(), a.getImages()[0]));
-
-//                System.out.println(a.getName());
-//                System.out.println("\t" + a.getReleaseDate());
-//                System.out.println("\t" + a.getId() + "\n\tBy: ");
-//                for (ArtistSimplified artist : a.getArtists()) {
-//                    System.out.println("\t\t" + artist.getName());
-//                    System.out.println("\t\t\t" + artist.getId());
-//                    System.out.println("\t\t\t" + artist.getHref());
-//                    System.out.println("\t\t\t" + artist.getUri());
-//                }
             }
 
             return albumSimplifiedPaging;
@@ -100,13 +99,12 @@ public class IntroController {
                 new Callback<TableColumn, TableCell>() {
                     @Override
                     public TableCell call(TableColumn param) {
-                        StringTableCell cell = new StringTableCell();
-                        cell.addEventFilter(MouseEvent.MOUSE_CLICKED, new StringCellEventHandler());
+                        AlbumTableCell cell = new AlbumTableCell();
+                        cell.addEventFilter(MouseEvent.MOUSE_CLICKED, new AlbumCellMouseHandler());
+                        cell.addEventHandler(KeyEvent.KEY_TYPED, new AlbumCellKeyHandler());
                         return cell;
                     }
                 };
-
-
 
         TableColumn colName = new TableColumn("Album Name");
         colName.setCellValueFactory(
@@ -142,5 +140,28 @@ public class IntroController {
                 searchButton.fire();
             }
         });
+    }
+
+    public static void promptForContinuation(PostrAlbum a) {
+        IntroController.currentlySelected = a;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to use this album?", ButtonType.YES, ButtonType.NO);
+        ImageView imageView = new ImageView(new Image(a.getAlbumArt().getImage().getUrl(), 100, 100, true, true));
+        alert.setGraphic(imageView);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                AlbumPostrApplication.class.getResource("/stylesheet/ap_style.css").toExternalForm()
+        );
+        dialogPane.getStyleClass().add("selectionDialog");
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            continueWithSelectedAlbum();
+        }
+    }
+
+    public static void continueWithSelectedAlbum() {
+        // TODO: Generate image, then open new window to edit and save generated image
+
+        System.out.println(IntroController.currentlySelected.toString());
     }
 }
