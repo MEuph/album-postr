@@ -3,10 +3,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -34,6 +36,171 @@
                               <ColorPicker fx:id="postrBackgroundColor" style="-fx-background-color: #404040;" />
                            </children>
                         </HBox>
+                        <TitledPane styleClass="background_class" text="Edit Parameters">
+                           <content>
+                              <VBox spacing="10.0" styleClass="background_class">
+                                 <children>
+                                    <TitledPane expanded="false" styleClass="background_class" text="Font Settings">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                                             <children>
+                                                <HBox>
+                                                   <children>
+                                                      <TextField prefHeight="23.0" prefWidth="166.0" promptText="Font Family">
+                                                         <font>
+                                                            <Font name="Montserrat Regular" size="12.0" />
+                                                         </font>
+                                                      </TextField>
+                                                      <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" text="Universal" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="Montserrat Regular" size="12.0" />
+                                                         </font>
+                                                      </CheckBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox prefHeight="20.0" prefWidth="240.0" spacing="40.0">
+                                                   <children>
+                                                      <ColorPicker prefHeight="36.0" prefWidth="127.0" promptText="Font Color" style="-fx-background-color: #404040;">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </ColorPicker>
+                                                      <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" text="Universal" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="Montserrat Regular" size="12.0" />
+                                                         </font>
+                                                      </CheckBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <TitledPane text="Individual Fonts">
+                                                   <content>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                                                         <children>
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField prefHeight="23.0" prefWidth="175.0" promptText="Title Font Family">
+                                                                     <font>
+                                                                        <Font name="Montserrat Regular" size="12.0" />
+                                                                     </font>
+                                                                  </TextField>
+                                                                  <ColorPicker prefHeight="36.0" prefWidth="127.0" promptText="Font Color" style="-fx-background-color: #404040;" />
+                                                               </children>
+                                                            </HBox>
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField prefHeight="23.0" prefWidth="175.0" promptText="Tracks Font Family">
+                                                                     <font>
+                                                                        <Font name="Montserrat Regular" size="12.0" />
+                                                                     </font>
+                                                                  </TextField>
+                                                                  <ColorPicker prefHeight="36.0" prefWidth="127.0" promptText="Font Color" style="-fx-background-color: #404040;" />
+                                                               </children>
+                                                            </HBox>
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField prefHeight="23.0" prefWidth="175.0" promptText="Year Font Family">
+                                                                     <font>
+                                                                        <Font name="Montserrat Regular" size="12.0" />
+                                                                     </font>
+                                                                  </TextField>
+                                                                  <ColorPicker prefHeight="36.0" prefWidth="127.0" promptText="Font Color" style="-fx-background-color: #404040;" />
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </content>
+                                                </TitledPane>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </TitledPane>
+                                    <TitledPane expanded="false" styleClass="background_class" text="Art Settings">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                                             <children>
+                                                <CheckBox mnemonicParsing="false" text="Album Art Is Square" textFill="WHITE">
+                                                   <font>
+                                                      <Font name="Montserrat Regular" size="12.0" />
+                                                   </font>
+                                                </CheckBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label text="Art Width">
+                                                         <font>
+                                                            <Font name="Montserrat Regular" size="12.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Spinner />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label text="Art Height">
+                                                         <font>
+                                                            <Font name="Montserrat Regular" size="12.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Spinner />
+                                                   </children>
+                                                </HBox>
+                                                <TextField promptText="Image URL">
+                                                   <font>
+                                                      <Font name="Montserrat Regular" size="12.0" />
+                                                   </font>
+                                                </TextField>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </TitledPane>
+                                    <TitledPane styleClass="background_class" text="Palette Settings">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0" styleClass="background_class">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label prefHeight="17.0" prefWidth="161.0" text="# of Colors" />
+                                                      <Spinner />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </TitledPane>
+                                    <TitledPane expanded="false" styleClass="background_class" text="Placement Settings">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0" styleClass="background_class">
+                                             <children>
+                                                <TitledPane expanded="false" styleClass="background_class" text="Tracks">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                   </content>
+                                                </TitledPane>
+                                                <TitledPane expanded="false" styleClass="background_class" text="Palette">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                   </content>
+                                                </TitledPane>
+                                                <TitledPane expanded="false" styleClass="background_class" text="Release Year">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                   </content>
+                                                </TitledPane>
+                                                <TitledPane expanded="false" styleClass="background_class" text="Title">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                   </content>
+                                                </TitledPane>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </TitledPane>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </TitledPane>
                         <TitledPane expanded="false" text="Edit Palette">
                            <content>
                               <VBox spacing="10.0" styleClass="background_class">
