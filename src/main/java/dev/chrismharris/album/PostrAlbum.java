@@ -24,6 +24,7 @@ public class PostrAlbum {
     private final SimpleObjectProperty<ImageView> albumArt;
     private String albumArtUrl;
     private final ArrayList<PostrTrack> tracks;
+    private String mainArtist;
 
     public PostrAlbum(String name, ArtistSimplified[] artists, String releaseDate, Image art, String id) {
         this.tracks = new ArrayList<PostrTrack>();
@@ -32,6 +33,7 @@ public class PostrAlbum {
         for (ArtistSimplified a : artists) {
             joiner.add(a.getName());
         }
+        this.mainArtist = artists[0].getName(); // it is assumed that the main artist will the first in the list
         this.artists = new SimpleStringProperty(joiner.toString());
         this.releaseDate = new SimpleStringProperty(releaseDate);
         this.albumArtUrl = art.getUrl();
@@ -53,6 +55,10 @@ public class PostrAlbum {
 
     public String getArtists() {
         return artists.get();
+    }
+
+    public String getMainArtist() {
+        return this.mainArtist;
     }
 
     public void setArtists(ArtistSimplified[] s) {

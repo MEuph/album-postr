@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class PostrEditorController {
@@ -57,7 +59,7 @@ public class PostrEditorController {
 
     public void loadFromAlbum(PostrAlbum a) {
         loadColorPickers();
-        loadTextFields();
+        loadTextFields(a);
         loadSongs(a);
     }
 
@@ -65,8 +67,15 @@ public class PostrEditorController {
 
     }
 
-    private void loadTextFields() {
-
+    private void loadTextFields(PostrAlbum a) {
+        // title
+        postrTitleField.setText(a.getName());
+        // release date
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(a.getReleaseDate(), formatter);
+        postrReleaseDateField.setValue(localDate);
+        // main artist
+        postrMainArtistField.setText(a.getMainArtist());
     }
 
     private void loadSongs(PostrAlbum a) {
