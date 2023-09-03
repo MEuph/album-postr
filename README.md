@@ -9,3 +9,7 @@ To add your keys, simply create a new class called `Keys.java` in the `dev.chris
 public static final String CLIENT_ID = "<YOUR_ID_HERE>";
 public static final String CLIENT_SECRET = "<YOUR_SECRET_HERE>";
 ```
+
+# External Libraries Used
+- [Color Thief](https://github.com/SvenWoltmann/color-thief-java) by [Sven Woltmann](https://github.com/SvenWoltmann/)
+- [Java Wrapper for Spotify API](https://github.com/spotify-web-api-java/spotify-web-api-java) by [Michael Thelin](https://github.com/thelinmichael)
