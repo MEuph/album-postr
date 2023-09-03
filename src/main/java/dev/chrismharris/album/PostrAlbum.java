@@ -1,11 +1,19 @@
 package dev.chrismharris.album;
 
+import dev.chrismharris.main.IntroController;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
+import org.apache.hc.core5.http.ParseException;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Image;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
+import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.StringJoiner;
 
 public class PostrAlbum {
@@ -14,10 +22,11 @@ public class PostrAlbum {
     private final SimpleStringProperty artists;
     private final SimpleStringProperty releaseDate;
     private final SimpleObjectProperty<ImageView> albumArt;
-
     private String albumArtUrl;
+    private final ArrayList<PostrTrack> tracks;
 
-    public PostrAlbum(String name, ArtistSimplified[] artists, String releaseDate, Image art) {
+    public PostrAlbum(String name, ArtistSimplified[] artists, String releaseDate, Image art, String id) {
+        this.tracks = new ArrayList<PostrTrack>();
         this.name = new SimpleStringProperty(name);
         StringJoiner joiner = new StringJoiner(", ");
         for (ArtistSimplified a : artists) {
@@ -29,6 +38,17 @@ public class PostrAlbum {
         ImageView unprocessed = new ImageView(new javafx.scene.image.Image(albumArtUrl, 48, 48, true, false));
         this.albumArt = new SimpleObjectProperty<ImageView>(unprocessed);
         System.out.println("url: " + art.getUrl());
+
+        try {
+            final GetAlbumsTracksRequest req = IntroController.spotifyApi.getAlbumsTracks(id).build();
+            final Paging<TrackSimplified> trackSimplifiedPaging = req.execute();
+
+            for (TrackSimplified t : trackSimplifiedPaging.getItems()) {
+                this.tracks.add(new PostrTrack(t));
+            }
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getArtists() {
@@ -72,16 +92,19 @@ public class PostrAlbum {
         return albumArtUrl;
     }
 
+    public ArrayList<PostrTrack> getTracks() {
+        return tracks;
+    }
+
     @Override
     public String toString() {
-        return new StringBuilder()
-                .append(getName())
-                .append("\n\tArtists: ")
-                .append("\n\t\t")
-                .append(getArtists())
-                .append("\n\t")
-                .append(getReleaseDate())
-                .append("\n\t")
-                .append(getAlbumArt().getImage().getUrl()).toString();
+        return getName() +
+                "\n\tArtists: " +
+                "\n\t\t" +
+                getArtists() +
+                "\n\t" +
+                getReleaseDate() +
+                "\n\t" +
+                getAlbumArt().getImage().getUrl();
     }
 }

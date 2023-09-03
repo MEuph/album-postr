@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.49609375000000006" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background_class" stylesheets="@../stylesheet/ap_style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+<SplitPane dividerPositions="0.49609375000000006" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background_class" stylesheets="@../stylesheet/ap_style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.chrismharris.main.PostrEditorController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background_class">
          <children>
@@ -32,7 +32,7 @@
                                     <Font name="Montserrat Regular" size="12.0" />
                                  </font>
                               </Label>
-                              <ColorPicker style="-fx-background-color: #404040;" />
+                              <ColorPicker fx:id="postrBackgroundColor" style="-fx-background-color: #404040;" />
                            </children>
                         </HBox>
                         <TitledPane expanded="false" text="Edit Palette">
@@ -46,7 +46,7 @@
                                                 <Font name="Montserrat Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <ColorPicker style="-fx-background-color: #404040;" />
+                                          <ColorPicker fx:id="paletteColor1" style="-fx-background-color: #404040;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets />
@@ -59,7 +59,7 @@
                                                 <Font name="Montserrat Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <ColorPicker style="-fx-background-color: #404040;" />
+                                          <ColorPicker fx:id="paletteColor2" style="-fx-background-color: #404040;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets />
@@ -72,7 +72,7 @@
                                                 <Font name="Montserrat Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <ColorPicker style="-fx-background-color: #404040;" />
+                                          <ColorPicker fx:id="paletteColor3" style="-fx-background-color: #404040;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets />
@@ -85,7 +85,7 @@
                                                 <Font name="Montserrat Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <ColorPicker style="-fx-background-color: #404040;" />
+                                          <ColorPicker fx:id="paletteColor4" style="-fx-background-color: #404040;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets />
@@ -98,7 +98,7 @@
                                                 <Font name="Montserrat Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <ColorPicker style="-fx-background-color: #404040;" />
+                                          <ColorPicker fx:id="paletteColor5" style="-fx-background-color: #404040;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets />
@@ -115,7 +115,7 @@
                                     <Font name="Montserrat Regular" size="12.0" />
                                  </font>
                               </Label>
-                              <TextField promptText="Enter Title...">
+                              <TextField fx:id="postrTitleField" promptText="Enter Title...">
                                  <font>
                                     <Font name="Montserrat Regular" size="11.0" />
                                  </font>
@@ -129,7 +129,7 @@
                                     <Font name="Montserrat Regular" size="12.0" />
                                  </font>
                               </Label>
-                              <DatePicker promptText="Enter Release Date" />
+                              <DatePicker fx:id="postrReleaseDateField" promptText="Enter Release Date" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
@@ -139,7 +139,7 @@
                                     <Font name="Montserrat Regular" size="12.0" />
                                  </font>
                               </Label>
-                              <TextField promptText="Enter Main Artist">
+                              <TextField fx:id="postrMainArtistField" promptText="Enter Main Artist">
                                  <font>
                                     <Font name="Montserrat Regular" size="11.0" />
                                  </font>
@@ -152,22 +152,18 @@
                                  <children>
                                     <HBox alignment="CENTER" spacing="10.0">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Add Song" />
-                                          <Button mnemonicParsing="false" styleClass="button_no" text="Delete Song" />
+                                          <Button fx:id="addSongButton" mnemonicParsing="false" text="Add Song" />
+                                          <Button fx:id="deleteSongButton" mnemonicParsing="false" styleClass="button_no" text="Delete Song" />
                                        </children>
                                     </HBox>
-                                    <TableView prefHeight="200.0" prefWidth="200.0">
-                                      <columns>
-                                        <TableColumn prefWidth="279.3333332935969" text="Song Name" />
-                                      </columns>
-                                    </TableView>
+                                    <TableView fx:id="songTableView" prefHeight="200.0" prefWidth="200.0"/>
                                  </children>
                               </VBox>
                            </content>
                         </TitledPane>
                         <HBox alignment="CENTER">
                            <children>
-                              <Button mnemonicParsing="false" text="Add Signature From File" />
+                              <Button fx:id="addSigFromFileButton" mnemonicParsing="false" text="Add Signature From File" />
                            </children>
                         </HBox>
                      </children>
@@ -178,8 +174,8 @@
       </AnchorPane>
       <VBox alignment="CENTER">
          <children>
-            <Canvas height="294.0" style="-: white;" width="220.0" />
-            <Button mnemonicParsing="false" text="Save Postr" />
+            <Canvas fx:id="previewCanvas" height="294.0" style="-: white;" width="220.0" />
+            <Button fx:id="savePostrButton" mnemonicParsing="false" text="Save Postr" />
          </children>
       </VBox>
   </items>
