@@ -1,5 +1,7 @@
 package dev.chrismharris.main;
 
+import de.androidpit.colorthief.ColorThief;
+import de.androidpit.colorthief.MMCQ;
 import dev.chrismharris.album.PostrAlbum;
 import dev.chrismharris.album.PostrTrack;
 import dev.chrismharris.table.IntegerTableCell;
@@ -7,15 +9,19 @@ import dev.chrismharris.table.StringTableCell;
 import dev.chrismharris.table.TimeTableCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
+import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PostrEditorController {
 
@@ -58,13 +64,29 @@ public class PostrEditorController {
     }
 
     public void loadFromAlbum(PostrAlbum a) {
-        loadColorPickers();
+        loadColorPickers(a);
         loadTextFields(a);
         loadSongs(a);
     }
 
-    private void loadColorPickers() {
+    private void loadColorPickers(PostrAlbum a) {
+        // get palette from image using ColorThief
+        BufferedImage img = SwingFXUtils.fromFXImage(a.getAlbumArt().getImage(), null);
+        MMCQ.CMap result = ColorThief.getColorMap(img, 5);
 
+        // populate color pickers
+        loadFromPalette(paletteColor1, result.palette(), 0);
+        loadFromPalette(paletteColor2, result.palette(), 1);
+        loadFromPalette(paletteColor3, result.palette(), 2);
+        loadFromPalette(paletteColor4, result.palette(), 3);
+        loadFromPalette(paletteColor5, result.palette(), 4);
+    }
+
+    void loadFromPalette(ColorPicker picker, int[][] palette, int index) {
+        picker.setValue(new Color((double)(palette[index][0]) / 255.0,
+                (double)(palette[index][1]) / 255.0,
+                (double)(palette[index][2]) / 255.0,
+                1.0));
     }
 
     private void loadTextFields(PostrAlbum a) {
