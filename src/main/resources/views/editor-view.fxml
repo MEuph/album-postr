@@ -133,7 +133,7 @@
                            <Label prefHeight="17.0" prefWidth="161.0" text="# of Colors"/>
                            <Spinner fx:id="paletteColorsNumberSpinner">
                               <valueFactory>
-                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10" initialValue="5"
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10" initialValue="10"
                                                              amountToStepBy="1"/>
                               </valueFactory>
                            </Spinner>
@@ -143,8 +143,8 @@
                            <Spinner fx:id="paletteWidthSpinner">
                               <valueFactory>
                                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
-                                                             initialValue="400"
-                                                             amountToStepBy="10"/>
+                                                             initialValue="60"
+                                                             amountToStepBy="1"/>
                               </valueFactory>
                            </Spinner>
                         </HBox>
@@ -154,7 +154,7 @@
                               <valueFactory>
                                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
                                                              initialValue="75"
-                                                             amountToStepBy="10"/>
+                                                             amountToStepBy="1"/>
                               </valueFactory>
                            </Spinner>
                         </HBox>
@@ -207,9 +207,9 @@
                                  </Label>
                                  <Spinner fx:id="tracksHorizontalSpacingSpinner">
                                     <valueFactory>
-                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="500"
-                                                                   initialValue="200"
-                                                                   amountToStepBy="10"/>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                                   initialValue="400"
+                                                                   amountToStepBy="1"/>
                                     </valueFactory>
                                  </Spinner>
                               </HBox>
@@ -223,8 +223,8 @@
                                  <Spinner fx:id="tracksNewlineThresholdSpinner">
                                     <valueFactory>
                                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="500"
-                                                                   initialValue="200"
-                                                                   amountToStepBy="10"/>
+                                                                   initialValue="30"
+                                                                   amountToStepBy="1"/>
                                     </valueFactory>
                                  </Spinner>
                               </HBox>
@@ -244,8 +244,8 @@
                                  <Spinner fx:id="paletteHorizontalSpacingSpinner">
                                     <valueFactory>
                                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="500"
-                                                                   initialValue="0"
-                                                                   amountToStepBy="10"/>
+                                                                   initialValue="60"
+                                                                   amountToStepBy="1"/>
                                     </valueFactory>
                                  </Spinner>
                               </HBox>
@@ -259,8 +259,8 @@
                                  <Spinner fx:id="paletteDistanceFromArtistSpinner">
                                     <valueFactory>
                                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="500"
-                                                                   initialValue="0"
-                                                                   amountToStepBy="10"/>
+                                                                   initialValue="390"
+                                                                   amountToStepBy="1"/>
                                     </valueFactory>
                                  </Spinner>
                               </HBox>
@@ -882,12 +882,12 @@
          </VBox>
       </ScrollPane>
    </AnchorPane>
-   <VBox alignment="CENTER">
+   <VBox alignment="CENTER" spacing="10">
       <Canvas fx:id="previewCanvas" height="294.0" style="-: white;" width="220.0"/>
       <HBox alignment="CENTER" spacing="10.0">
          <Button fx:id="fullSizePreviewButton" mnemonicParsing="false" text="Full Size Preview"/>
          <Button fx:id="savePostrButton" mnemonicParsing="false" text="Save Postr"/>
-         <Button fx:id="regeneratePostrButton" mnemonicParsing="false" text="Regenerate Preview"/>
       </HBox>
+      <Button fx:id="regeneratePostrButton" mnemonicParsing="false" text="Regenerate Preview"/>
    </VBox>
 </SplitPane>
