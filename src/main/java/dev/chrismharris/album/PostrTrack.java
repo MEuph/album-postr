@@ -1,5 +1,6 @@
 package dev.chrismharris.album;
 
+import dev.chrismharris.main.AlbumPostrApplication;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
@@ -20,7 +21,7 @@ public class PostrTrack {
         this.trackNumber = new SimpleIntegerProperty(t.getTrackNumber());
         this.durationMs = new SimpleIntegerProperty(t.getDurationMs());
 
-        System.out.println("#" + trackNumber.get() + ": " + name.get() + " [" + durationMs.get() + "ms]");
+        if (AlbumPostrApplication.DEBUG) System.out.println("#" + trackNumber.get() + ": " + name.get() + " [" + durationMs.get() + "ms]");
     }
 
     public String getName() {

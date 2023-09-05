@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 
 public class AlbumPostrApplication extends Application {
 
+    public static final boolean DEBUG = false;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(

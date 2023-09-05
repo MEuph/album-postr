@@ -1,5 +1,6 @@
 package dev.chrismharris.album;
 
+import dev.chrismharris.main.AlbumPostrApplication;
 import dev.chrismharris.main.IntroController;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -39,7 +40,7 @@ public class PostrAlbum {
         this.albumArtUrl = art.getUrl();
         ImageView unprocessed = new ImageView(new javafx.scene.image.Image(albumArtUrl, 48, 48, true, false));
         this.albumArt = new SimpleObjectProperty<ImageView>(unprocessed);
-        System.out.println("url: " + art.getUrl());
+        if (AlbumPostrApplication.DEBUG) System.out.println("url: " + art.getUrl());
 
         try {
             final GetAlbumsTracksRequest req = IntroController.spotifyApi.getAlbumsTracks(id).build();
