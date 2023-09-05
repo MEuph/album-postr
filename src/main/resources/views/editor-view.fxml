@@ -18,858 +18,875 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
-<SplitPane dividerPositions="0.49609375000000006" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background_class" stylesheets="@../stylesheet/ap_style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.chrismharris.main.PostrEditorController">
-  <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background_class">
-         <children>
-            <ScrollPane fitToWidth="true" prefHeight="400.0" prefWidth="295.0" styleClass="background_class">
-               <content>
-                  <VBox prefHeight="513.0" prefWidth="292.0" spacing="10.0" styleClass="background_class">
-                     <children>
-                        <HBox fx:id="postrBackgroundColorHBox" alignment="CENTER" spacing="5.0">
-                           <children>
-                              <Label alignment="CENTER" text="Postr Background Color" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Montserrat Regular" size="12.0" />
-                                 </font>
-                              </Label>
-                              <ColorPicker fx:id="postrBackgroundColor" style="-fx-background-color: #404040;" />
-                           </children>
-                        </HBox>
-                        <HBox fx:id="postrTitleFieldHBox" alignment="CENTER" spacing="10.0">
-                           <children>
-                              <Label alignment="CENTER" text="Postr Title" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Montserrat Regular" size="12.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="postrTitleField" promptText="Enter Title...">
-                                 <font>
-                                    <Font name="Montserrat Regular" size="11.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox fx:id="postrReleaseDateFieldHBox" alignment="CENTER" spacing="10.0">
-                           <children>
-                              <Label alignment="CENTER" text="Release Date" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Montserrat Regular" size="12.0" />
-                                 </font>
-                              </Label>
-                              <DatePicker fx:id="postrReleaseDateField" promptText="Enter Release Date" />
-                           </children>
-                        </HBox>
-                        <HBox fx:id="postrDateFormatFieldHBox" alignment="CENTER" spacing="10.0">
-                           <children>
-                              <Label alignment="CENTER" prefWidth="85.0" text="Date Format" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Montserrat Regular" size="12.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="postrDateFormatField" promptText="Enter Date Field" text="YYYY">
-                                 <font>
-                                    <Font name="Montserrat Regular" size="11.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox fx:id="postrMainArtistFieldHBox" alignment="CENTER" spacing="10.0">
-                           <children>
-                              <Label alignment="CENTER" text="Main Artist" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Montserrat Regular" size="12.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="postrMainArtistField" promptText="Enter Main Artist">
-                                 <font>
-                                    <Font name="Montserrat Regular" size="11.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <TitledPane fx:id="advancedSettingsTitledPane" expanded="false" styleClass="background_class" text="Advanced Settings">
-                           <content>
-                              <VBox fx:id="advancedSettingsVBox" styleClass="background_class">
-                                 <children>
-                                    <TitledPane fx:id="albumArtSettingsTitledPane" expanded="false" styleClass="background_class" text="Album Art">
-                                       <content>
-                                          <VBox fx:id="albumArtSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                             <children>
-                                                <CheckBox fx:id="albumArtSquareCheckBox" mnemonicParsing="false" text="Album Art Is Square" textFill="WHITE">
-                                                   <font>
-                                                      <Font name="Montserrat Regular" size="12.0" />
-                                                   </font>
-                                                </CheckBox>
-                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                                   <children>
-                                                      <Label text="Art Width">
-                                                         <font>
-                                                            <Font name="Montserrat Regular" size="12.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Spinner fx:id="albumArtWidthSpinner">
-                                                         <valueFactory>
-                                                            <IntegerSpinnerValueFactory min="0" max="1200" initialValue="990" amountToStepBy="10"/>
-                                                         </valueFactory>
-                                                      </Spinner>
-                                                   </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                                   <children>
-                                                      <Label text="Art Height">
-                                                         <font>
-                                                            <Font name="Montserrat Regular" size="12.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Spinner fx:id="albumArtHeightSpinner">
-                                                         <valueFactory>
-                                                            <IntegerSpinnerValueFactory min="0" max="1200" initialValue="990" amountToStepBy="10"/>
-                                                         </valueFactory>
-                                                      </Spinner>
-                                                   </children>
-                                                </HBox>
-                                                <TextField fx:id="albumArtUrlTextField" promptText="Image URL">
-                                                   <font>
-                                                      <Font name="Montserrat Regular" size="12.0" />
-                                                   </font>
-                                                </TextField>
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane fx:id="paletteSettingsTitledPane" expanded="false" styleClass="background_class" text="Palette Settings">
-                                       <content>
-                                          <VBox fx:id="paletteSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                             <children>
-                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="161.0" text="# of Colors" />
-                                                      <Spinner fx:id="palleteColorsNumberSpinner">
-                                                         <valueFactory>
-                                                            <IntegerSpinnerValueFactory min="0" max="10" initialValue="5" amountToStepBy="1"/>
-                                                         </valueFactory>
-                                                      </Spinner>
-                                                   </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="161.0" text="Palette Width" />
-                                                      <Spinner fx:id="paletteWidthSpinner">
-                                                         <valueFactory>
-                                                            <IntegerSpinnerValueFactory min="0" max="1200" initialValue="400" amountToStepBy="10"/>
-                                                         </valueFactory>
-                                                      </Spinner>
-                                                   </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="161.0" text="Palette Height" />
-                                                      <Spinner fx:id="paletteHeightSpinner">
-                                                         <valueFactory>
-                                                            <IntegerSpinnerValueFactory min="0" max="1600" initialValue="75" amountToStepBy="10"/>
-                                                         </valueFactory>
-                                                      </Spinner>
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane fx:id="placementSettingsTitledPane" expanded="false" styleClass="background_class" text="Placement Settings">
-                                       <content>
-                                          <VBox fx:id="placementSettingsVBox" prefHeight="200.0" prefWidth="100.0" styleClass="background_class">
-                                             <children>
-                                                <TitledPane fx:id="tracksPlacementSettinsgTitledPane" expanded="false" styleClass="background_class" text="Tracks">
-                                                   <content>
-                                                      <VBox fx:id="tracksPlacementSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="# Per Column">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="numTracksPerColumnSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="20" initialValue="7" amountToStepBy="1"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Vertical Spacing">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="tracksVerticalSpacingSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="200" initialValue="40" amountToStepBy="10"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Horizontal Spacing">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="tracksHorizontalSpacingSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="500" initialValue="200" amountToStepBy="10"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Newline Threshold">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="tracksNewlineThreshold">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="500" initialValue="200" amountToStepBy="10"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                                <TitledPane fx:id="palettePlacementSettingsTitledPane" expanded="false" styleClass="background_class" text="Palette">
-                                                   <content>
-                                                      <VBox fx:id="palettePlacementSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Horizontal Spacing">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="paletteHorizontalSpacingSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="500" initialValue="0" amountToStepBy="10"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Distance from Artist">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="paletteDistanceFromArtistSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="500" initialValue="0" amountToStepBy="10"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                                <TitledPane fx:id="releaseDatePlacementSettingsTitledPane" expanded="false" styleClass="background_class" text="Release Date">
-                                                   <content>
-                                                      <VBox fx:id="releaseDatePlacementSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="X Position">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="releaseDateXPositionSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1200" initialValue="1025" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Y Position">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="releaseDateYPositionSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1600" initialValue="75" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                                <TitledPane fx:id="titlePlacementSettingsTitledPane" expanded="false" styleClass="background_class" text="Title">
-                                                   <content>
-                                                      <VBox fx:id="titlePlacementSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="X Position">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="titleXPositionSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1200" initialValue="105" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Y Position">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="titleYPositionSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1600" initialValue="140" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                                <TitledPane fx:id="artistPlacementSettingsTitledPane" expanded="false" styleClass="background_class" text="Artist">
-                                                   <content>
-                                                      <VBox fx:id="artistPlacementSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="X Position">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="artistXPositionSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1200" initialValue="105" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Vertical Spacing">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="artistVerticalSpacingSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1600" initialValue="0" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                                <TitledPane fx:id="albumArtPlacementSettingsTitledPane" expanded="false" styleClass="background_class" text="Album Art">
-                                                   <content>
-                                                      <VBox fx:id="albumArtPlacementSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="X Position">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="albumArtXPositionSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1200" initialValue="105" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Y Position">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="albumArtYPositionSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1600" initialValue="212" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane fx:id="colorAndFontSettingsTitledPane" expanded="false" styleClass="background_class" text="Color/Font Settings">
-                                       <content>
-                                          <VBox fx:id="colorAndFontSettingsVBox" prefHeight="200.0" prefWidth="100.0" styleClass="background_class">
-                                             <children>
-                                                <TitledPane fx:id="fontSettingsTitledPane" expanded="false" styleClass="background_class" text="Font">
-                                                   <content>
-                                                      <VBox fx:id="fontSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox>
-                                                               <children>
-                                                                  <TextField fx:id="globalFontFamilyTextField" prefHeight="23.0" prefWidth="166.0" promptText="Global Font Family">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </TextField>
-                                                                  <CheckBox fx:id="useGlobalFontFamilyCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" text="Use Globally" textFill="WHITE">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </CheckBox>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox prefHeight="20.0" prefWidth="240.0" spacing="40.0">
-                                                               <children>
-                                                                  <ColorPicker fx:id="globalFontColorPicker" prefHeight="36.0" prefWidth="127.0" promptText="Font Color" style="-fx-background-color: #404040;"/>
-                                                                  <CheckBox fx:id="useGlobalFontColorCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" text="Use Globally" textFill="WHITE">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </CheckBox>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                                <TitledPane fx:id="tracksColorAndFontSettingsTitledPane" expanded="false" styleClass="background_class" text="Tracks">
-                                                   <content>
-                                                      <VBox fx:id="tracksColorAndFontSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="91.0" text="Font Family">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <TextField fx:id="tracksFontFamilyTextField" promptText="Enter Font Family" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="182.0" text="Alternate Colors">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <CheckBox fx:id="tracksAlternateColorsCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Color 1">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <ColorPicker fx:id="tracksColor1Picker" style="-fx-background-color: #404040;" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Color 2">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <ColorPicker fx:id="tracksColor2Picker" style="-fx-background-color: #404040;" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="182.0" text="Highlight Explicit Tracks">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <CheckBox fx:id="highlightExplicitTracksCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="Highlight Color">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <ColorPicker fx:id="explicitTracksHighlightColorPicker" style="-fx-background-color: #404040;" />
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                                <TitledPane fx:id="paletteColorAndFontSettingsTitledPane" expanded="false" styleClass="background_class" text="Palette">
-                                                   <content>
-                                                      <VBox spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #1" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor1ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #2" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor2ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #3" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor3ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #4" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor4ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #5" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor5ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #6" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor6ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #7" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor7ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #8" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor8ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #9" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor9ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <Label alignment="CENTER" prefHeight="15.0" prefWidth="165.0" text="Palette Color #10" textAlignment="CENTER">
-                                                                  <font>
-                                                                     <Font name="Montserrat Regular" size="12.0" />
-                                                                  </font>
-                                                               </Label>
-                                                               <ColorPicker fx:id="paletteColor10ColorPicker" style="-fx-background-color: #404040;" />
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                                <TitledPane fx:id="releaseDateColorAndFontSettingsTitledPane" expanded="false" styleClass="background_class" text="Release Date">
-                                                   <content>
-                                                      <VBox fx:id="releaseDateColorAndFontSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="91.0" text="Font Family">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <TextField fx:id="releaseDateFontFamilyTextField" promptText="Enter Font Family" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <children>
-                                                                  <Label alignment="CENTER_RIGHT" prefHeight="15.0" prefWidth="135.0" text="Font Color" textAlignment="CENTER">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <ColorPicker fx:id="releaseDateFontColorPicker" style="-fx-background-color: #404040;" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <children>
-                                                                  <Label alignment="CENTER" prefHeight="15.0" prefWidth="161.0" text="Background Color" textAlignment="CENTER">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <ColorPicker fx:id="releaseDateFontBackgroundColor" prefHeight="17.0" prefWidth="151.0" style="-fx-background-color: #404040;" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="H Margins">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="releaseDateBackgroundHorizontalMarginsSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1200" initialValue="15" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="V Margins">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="releaseDateBackgroundVerticalMarginsSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1600" initialValue="15" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                                <TitledPane fx:id="titleColorAndFontSettingsTitledPane" expanded="false" styleClass="background_class" text="Title">
-                                                   <content>
-                                                      <VBox fx:id="titleColorAndFontSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                                         <children>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="91.0" text="Font Family">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <TextField fx:id="titleFontFamilyTextField" promptText="Enter Font Family" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <children>
-                                                                  <Label alignment="CENTER_RIGHT" prefHeight="15.0" prefWidth="135.0" text="Font Color" textAlignment="CENTER">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <ColorPicker fx:id="titleFontColorPicker" style="-fx-background-color: #404040;" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0" spacing="10.0">
-                                                               <children>
-                                                                  <Label alignment="CENTER" prefHeight="15.0" prefWidth="161.0" text="Background Color" textAlignment="CENTER">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <ColorPicker fx:id="titleBackgroundColorPicker" prefHeight="17.0" prefWidth="151.0" style="-fx-background-color: #404040;" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="H Margins">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="titleBackgroundHorizontalMarginsSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1200" initialValue="15" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                               <children>
-                                                                  <Label prefHeight="17.0" prefWidth="203.0" text="V Margins">
-                                                                     <font>
-                                                                        <Font name="Montserrat Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Spinner fx:id="titleBackgroundVerticalMarginsSpinner">
-                                                                     <valueFactory>
-                                                                        <IntegerSpinnerValueFactory min="0" max="1600" initialValue="15" amountToStepBy="5"/>
-                                                                     </valueFactory>
-                                                                  </Spinner>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </content>
-                                                </TitledPane>
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane fx:id="signatureSettingsTitledPane" expanded="false" styleClass="background_class" text="Signature">
-                                       <content>
-                                          <VBox fx:id="signatureSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                             <children>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="203.0" text="X Position">
-                                                         <font>
-                                                            <Font name="Montserrat Regular" size="12.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Spinner fx:id="signatureXPositionSpinner">
-                                                         <valueFactory>
-                                                            <IntegerSpinnerValueFactory min="0" max="1200" initialValue="990" amountToStepBy="10"/>
-                                                         </valueFactory>
-                                                      </Spinner>
-                                                   </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="203.0" text="Y Position">
-                                                         <font>
-                                                            <Font name="Montserrat Regular" size="12.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Spinner fx:id="signatureYPositionSpinner">
-                                                         <valueFactory>
-                                                            <IntegerSpinnerValueFactory min="0" max="1600" initialValue="990" amountToStepBy="10"/>
-                                                         </valueFactory>
-                                                      </Spinner>
-                                                   </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="203.0" text="Width">
-                                                         <font>
-                                                            <Font name="Montserrat Regular" size="12.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Spinner fx:id="signatureWidthSpinner">
-                                                         <valueFactory>
-                                                            <IntegerSpinnerValueFactory min="0" max="1200" initialValue="990" amountToStepBy="10"/>
-                                                         </valueFactory>
-                                                      </Spinner>
-                                                   </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="203.0" text="Height">
-                                                         <font>
-                                                            <Font name="Montserrat Regular" size="12.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Spinner fx:id="signatureHeightSpinner">
-                                                         <valueFactory>
-                                                            <IntegerSpinnerValueFactory min="0" max="1600" initialValue="990" amountToStepBy="10"/>
-                                                         </valueFactory>
-                                                      </Spinner>
-                                                   </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="203.0" text="Preserve Ratio">
-                                                         <font>
-                                                            <Font name="Montserrat Regular" size="12.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <CheckBox fx:id="signaturePreserveRatioCheckBox" mnemonicParsing="false" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </TitledPane>
-                        <TitledPane expanded="false" text="Edit Songs">
-                           <content>
-                              <VBox spacing="10.0" styleClass="background_class">
-                                 <children>
-                                    <HBox alignment="CENTER" spacing="10.0">
-                                       <children>
-                                          <Button fx:id="addSongButton" mnemonicParsing="false" text="Add Song" />
-                                          <Button fx:id="deleteSongButton" mnemonicParsing="false" styleClass="button_no" text="Delete Song" />
-                                       </children>
-                                    </HBox>
-                                    <TableView fx:id="songTableView" prefHeight="200.0" prefWidth="200.0" />
-                                 </children>
-                              </VBox>
-                           </content>
-                        </TitledPane>
-                        <HBox alignment="CENTER">
-                           <children>
-                              <Button fx:id="addSigFromFileButton" mnemonicParsing="false" text="Add Signature From File" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
-         </children>
-      </AnchorPane>
-      <VBox alignment="CENTER">
-         <children>
-            <Canvas fx:id="previewCanvas" height="294.0" style="-: white;" width="220.0" />
-            <HBox alignment="CENTER" spacing="10.0">
-               <children>
-                  <Button fx:id="fullSizePreviewButton" mnemonicParsing="false" text="Full Size Preview" />
-                  <Button fx:id="savePostrButton" mnemonicParsing="false" text="Save Postr" />
-               </children>
+<SplitPane dividerPositions="0.49609375000000006" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+           minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background_class"
+           stylesheets="@../stylesheet/ap_style.css" xmlns="http://javafx.com/javafx/20.0.1"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.chrismharris.main.PostrEditorController">
+   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background_class">
+      <ScrollPane fitToWidth="true" prefHeight="400.0" prefWidth="295.0" styleClass="background_class">
+         <VBox prefHeight="513.0" prefWidth="292.0" spacing="10.0" styleClass="background_class">
+            <HBox fx:id="postrBackgroundColorHBox" alignment="CENTER" spacing="5.0">
+               <Label alignment="CENTER" text="Postr Background Color" textAlignment="CENTER">
+                  <font>
+                     <Font name="Montserrat Regular" size="12.0"/>
+                  </font>
+               </Label>
+               <ColorPicker fx:id="postrBackgroundColor" style="-fx-background-color: #404040;"/>
             </HBox>
-         </children>
-      </VBox>
-  </items>
+            <HBox fx:id="postrTitleFieldHBox" alignment="CENTER" spacing="10.0">
+               <Label alignment="CENTER" text="Postr Title" textAlignment="CENTER">
+                  <font>
+                     <Font name="Montserrat Regular" size="12.0"/>
+                  </font>
+               </Label>
+               <TextField fx:id="postrTitleField" promptText="Enter Title...">
+                  <font>
+                     <Font name="Montserrat Regular" size="11.0"/>
+                  </font>
+               </TextField>
+            </HBox>
+            <HBox fx:id="postrReleaseDateFieldHBox" alignment="CENTER" spacing="10.0">
+               <Label alignment="CENTER" text="Release Date" textAlignment="CENTER">
+                  <font>
+                     <Font name="Montserrat Regular" size="12.0"/>
+                  </font>
+               </Label>
+               <DatePicker fx:id="postrReleaseDateField" promptText="Enter Release Date"/>
+            </HBox>
+            <HBox fx:id="postrDateFormatFieldHBox" alignment="CENTER" spacing="10.0">
+               <Label alignment="CENTER" prefWidth="85.0" text="Date Format" textAlignment="CENTER">
+                  <font>
+                     <Font name="Montserrat Regular" size="12.0"/>
+                  </font>
+               </Label>
+               <TextField fx:id="postrDateFormatField" promptText="Enter Date Field" text="YYYY">
+                  <font>
+                     <Font name="Montserrat Regular" size="11.0"/>
+                  </font>
+               </TextField>
+            </HBox>
+            <HBox fx:id="postrMainArtistFieldHBox" alignment="CENTER" spacing="10.0">
+               <Label alignment="CENTER" text="Main Artist" textAlignment="CENTER">
+                  <font>
+                     <Font name="Montserrat Regular" size="12.0"/>
+                  </font>
+               </Label>
+               <TextField fx:id="postrMainArtistField" promptText="Enter Main Artist">
+                  <font>
+                     <Font name="Montserrat Regular" size="11.0"/>
+                  </font>
+               </TextField>
+            </HBox>
+            <TitledPane fx:id="advancedSettingsTitledPane" expanded="false" styleClass="background_class"
+                        text="Advanced Settings">
+               <VBox fx:id="advancedSettingsVBox" styleClass="background_class">
+                  <TitledPane fx:id="albumArtSettingsTitledPane" expanded="false"
+                              styleClass="background_class" text="Album Art">
+                     <VBox fx:id="albumArtSettingsVBox" prefHeight="200.0" prefWidth="100.0"
+                           spacing="10.0" styleClass="background_class">
+                        <CheckBox fx:id="albumArtSquareCheckBox" mnemonicParsing="false"
+                                  text="Album Art Is Square" textFill="WHITE">
+                           <font>
+                              <Font name="Montserrat Regular" size="12.0"/>
+                           </font>
+                        </CheckBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <Label text="Art Width">
+                              <font>
+                                 <Font name="Montserrat Regular" size="12.0"/>
+                              </font>
+                           </Label>
+                           <Spinner fx:id="albumArtWidthSpinner">
+                              <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                             initialValue="990"
+                                                             amountToStepBy="10"/>
+                              </valueFactory>
+                           </Spinner>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <Label text="Art Height">
+                              <font>
+                                 <Font name="Montserrat Regular" size="12.0"/>
+                              </font>
+                           </Label>
+                           <Spinner fx:id="albumArtHeightSpinner">
+                              <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                             initialValue="990"
+                                                             amountToStepBy="10"/>
+                              </valueFactory>
+                           </Spinner>
+                        </HBox>
+                        <TextField fx:id="albumArtUrlTextField" promptText="Image URL">
+                           <font>
+                              <Font name="Montserrat Regular" size="12.0"/>
+                           </font>
+                        </TextField>
+                     </VBox>
+                  </TitledPane>
+                  <TitledPane fx:id="paletteSettingsTitledPane" expanded="false"
+                              styleClass="background_class" text="Palette Settings">
+                     <VBox fx:id="paletteSettingsVBox" prefHeight="200.0" prefWidth="100.0"
+                           spacing="10.0" styleClass="background_class">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <Label prefHeight="17.0" prefWidth="161.0" text="# of Colors"/>
+                           <Spinner fx:id="paletteColorsNumberSpinner">
+                              <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10" initialValue="5"
+                                                             amountToStepBy="1"/>
+                              </valueFactory>
+                           </Spinner>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <Label prefHeight="17.0" prefWidth="161.0" text="Palette Width"/>
+                           <Spinner fx:id="paletteWidthSpinner">
+                              <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                             initialValue="400"
+                                                             amountToStepBy="10"/>
+                              </valueFactory>
+                           </Spinner>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <Label prefHeight="17.0" prefWidth="161.0" text="Palette Height"/>
+                           <Spinner fx:id="paletteHeightSpinner">
+                              <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                             initialValue="75"
+                                                             amountToStepBy="10"/>
+                              </valueFactory>
+                           </Spinner>
+                        </HBox>
+                     </VBox>
+                  </TitledPane>
+                  <TitledPane fx:id="placementSettingsTitledPane" expanded="false"
+                              styleClass="background_class" text="Placement Settings">
+                     <VBox fx:id="placementSettingsVBox" prefHeight="200.0" prefWidth="100.0"
+                           styleClass="background_class">
+                        <TitledPane fx:id="tracksPlacementSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Tracks">
+                           <VBox fx:id="tracksPlacementSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="# Per Column">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="numTracksPerColumnSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="20"
+                                                                   initialValue="7"
+                                                                   amountToStepBy="1"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Vertical Spacing">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="tracksVerticalSpacingSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="200"
+                                                                   initialValue="40"
+                                                                   amountToStepBy="10"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Horizontal Spacing">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="tracksHorizontalSpacingSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="500"
+                                                                   initialValue="200"
+                                                                   amountToStepBy="10"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Newline Threshold">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="tracksNewlineThresholdSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="500"
+                                                                   initialValue="200"
+                                                                   amountToStepBy="10"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                        <TitledPane fx:id="palettePlacementSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Palette">
+                           <VBox fx:id="palettePlacementSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Horizontal Spacing">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="paletteHorizontalSpacingSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="500"
+                                                                   initialValue="0"
+                                                                   amountToStepBy="10"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Distance from Artist">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="paletteDistanceFromArtistSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="500"
+                                                                   initialValue="0"
+                                                                   amountToStepBy="10"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                        <TitledPane fx:id="releaseDatePlacementSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Release Date">
+                           <VBox fx:id="releaseDatePlacementSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="X Position">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="releaseDateXPositionSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                                   initialValue="1025"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Y Position">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="releaseDateYPositionSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                                   initialValue="75"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                        <TitledPane fx:id="titlePlacementSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Title">
+                           <VBox fx:id="titlePlacementSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="X Position">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="titleXPositionSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                                   initialValue="105"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Y Position">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="titleYPositionSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                                   initialValue="140"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                        <TitledPane fx:id="artistPlacementSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Artist">
+                           <VBox fx:id="artistPlacementSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="X Position">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="artistXPositionSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                                   initialValue="105"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Vertical Spacing">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="artistVerticalSpacingSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                                   initialValue="0"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                        <TitledPane fx:id="albumArtPlacementSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Album Art">
+                           <VBox fx:id="albumArtPlacementSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="X Position">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="albumArtXPositionSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                                   initialValue="105"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Y Position">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="albumArtYPositionSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                                   initialValue="212"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                     </VBox>
+                  </TitledPane>
+                  <TitledPane fx:id="colorAndFontSettingsTitledPane" expanded="false"
+                              styleClass="background_class" text="Color/Font Settings">
+                     <VBox fx:id="colorAndFontSettingsVBox" prefHeight="200.0" prefWidth="100.0"
+                           styleClass="background_class">
+                        <TitledPane fx:id="fontSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Font">
+                           <VBox fx:id="fontSettingsVBox" prefHeight="200.0" prefWidth="100.0"
+                                 spacing="10.0" styleClass="background_class">
+                              <HBox>
+                                 <TextField fx:id="globalFontFamilyTextField"
+                                            prefHeight="23.0" prefWidth="166.0"
+                                            promptText="Global Font Family">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </TextField>
+                                 <CheckBox fx:id="useGlobalFontFamilyCheckBox"
+                                           mnemonicParsing="false" prefHeight="17.0"
+                                           prefWidth="95.0" text="Use Globally"
+                                           textFill="WHITE">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </CheckBox>
+                              </HBox>
+                              <HBox prefHeight="20.0" prefWidth="240.0" spacing="40.0">
+                                 <ColorPicker fx:id="globalFontColorPicker"
+                                              prefHeight="36.0" prefWidth="127.0"
+                                              promptText="Font Color"
+                                              style="-fx-background-color: #404040;"/>
+                                 <CheckBox fx:id="useGlobalFontColorCheckBox"
+                                           mnemonicParsing="false" prefHeight="17.0"
+                                           prefWidth="95.0" text="Use Globally"
+                                           textFill="WHITE">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </CheckBox>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                        <TitledPane fx:id="tracksColorAndFontSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Tracks">
+                           <VBox fx:id="tracksColorAndFontSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="91.0"
+                                        text="Font Family">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <TextField fx:id="tracksFontFamilyTextField"
+                                            promptText="Enter Font Family"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="182.0"
+                                        text="Alternate Colors">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <CheckBox fx:id="tracksAlternateColorsCheckBox"
+                                           mnemonicParsing="false" prefHeight="17.0"
+                                           prefWidth="92.0"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Color 1">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="tracksColor1Picker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Color 2">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="tracksColor2Picker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="182.0"
+                                        text="Highlight Explicit Tracks">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <CheckBox fx:id="highlightExplicitTracksCheckBox"
+                                           mnemonicParsing="false" prefHeight="17.0"
+                                           prefWidth="92.0"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="Highlight Color">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="explicitTracksHighlightColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                        <TitledPane fx:id="paletteColorAndFontSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Palette">
+                           <VBox fx:id="paletteColorAndFontSettingsVBox" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #1"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor1ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #2"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor2ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #3"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor3ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #4"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor4ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #5"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor5ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #6"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor6ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #7"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor7ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #8"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor8ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #9"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor9ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="165.0" text="Palette Color #10"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="paletteColor10ColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                        <TitledPane fx:id="releaseDateColorAndFontSettingsTitledPane"
+                                    expanded="false" styleClass="background_class"
+                                    text="Release Date">
+                           <VBox fx:id="releaseDateColorAndFontSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="91.0"
+                                        text="Font Family">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <TextField fx:id="releaseDateFontFamilyTextField"
+                                            promptText="Enter Font Family"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER_RIGHT" prefHeight="15.0"
+                                        prefWidth="135.0" text="Font Color"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="releaseDateFontColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="161.0" text="Background Color"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="releaseDateFontBackgroundColor"
+                                              prefHeight="17.0" prefWidth="151.0"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="H Margins">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner
+                                         fx:id="releaseDateBackgroundHorizontalMarginsSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                                   initialValue="15"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="V Margins">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner
+                                         fx:id="releaseDateBackgroundVerticalMarginsSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                                   initialValue="15"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                        <TitledPane fx:id="titleColorAndFontSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Title">
+                           <VBox fx:id="titleColorAndFontSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="91.0"
+                                        text="Font Family">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <TextField fx:id="titleFontFamilyTextField"
+                                            promptText="Enter Font Family"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER_RIGHT" prefHeight="15.0"
+                                        prefWidth="135.0" text="Font Color"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="titleFontColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="161.0" text="Background Color"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="titleBackgroundColorPicker"
+                                              prefHeight="17.0" prefWidth="151.0"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="H Margins">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="titleBackgroundHorizontalMarginsSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                                   initialValue="15"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="V Margins">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="titleBackgroundVerticalMarginsSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                                   initialValue="15"
+                                                                   amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+                     </VBox>
+                  </TitledPane>
+                  <TitledPane fx:id="signatureSettingsTitledPane" expanded="false"
+                              styleClass="background_class" text="Signature">
+                     <VBox fx:id="signatureSettingsVBox" prefHeight="200.0" prefWidth="100.0"
+                           spacing="10.0" styleClass="background_class">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <Label prefHeight="17.0" prefWidth="203.0" text="X Position">
+                              <font>
+                                 <Font name="Montserrat Regular" size="12.0"/>
+                              </font>
+                           </Label>
+                           <Spinner fx:id="signatureXPositionSpinner">
+                              <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                             initialValue="990"
+                                                             amountToStepBy="10"/>
+                              </valueFactory>
+                           </Spinner>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <Label prefHeight="17.0" prefWidth="203.0" text="Y Position">
+                              <font>
+                                 <Font name="Montserrat Regular" size="12.0"/>
+                              </font>
+                           </Label>
+                           <Spinner fx:id="signatureYPositionSpinner">
+                              <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                             initialValue="990"
+                                                             amountToStepBy="10"/>
+                              </valueFactory>
+                           </Spinner>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <Label prefHeight="17.0" prefWidth="203.0" text="Width">
+                              <font>
+                                 <Font name="Montserrat Regular" size="12.0"/>
+                              </font>
+                           </Label>
+                           <Spinner fx:id="signatureWidthSpinner">
+                              <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                             initialValue="990"
+                                                             amountToStepBy="10"/>
+                              </valueFactory>
+                           </Spinner>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <Label prefHeight="17.0" prefWidth="203.0" text="Height">
+                              <font>
+                                 <Font name="Montserrat Regular" size="12.0"/>
+                              </font>
+                           </Label>
+                           <Spinner fx:id="signatureHeightSpinner">
+                              <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                             initialValue="990"
+                                                             amountToStepBy="10"/>
+                              </valueFactory>
+                           </Spinner>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <Label prefHeight="17.0" prefWidth="203.0" text="Preserve Ratio">
+                              <font>
+                                 <Font name="Montserrat Regular" size="12.0"/>
+                              </font>
+                           </Label>
+                           <CheckBox fx:id="signaturePreserveRatioCheckBox"
+                                     mnemonicParsing="false"/>
+                        </HBox>
+                     </VBox>
+                  </TitledPane>
+               </VBox>
+            </TitledPane>
+            <TitledPane expanded="false" text="Edit Songs">
+               <VBox spacing="10.0" styleClass="background_class">
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <Button fx:id="addSongButton" mnemonicParsing="false" text="Add Song"/>
+                     <Button fx:id="deleteSongButton" mnemonicParsing="false" styleClass="button_no"
+                             text="Delete Song"/>
+                  </HBox>
+                  <TableView fx:id="songTableView" prefHeight="200.0" prefWidth="200.0"/>
+               </VBox>
+            </TitledPane>
+            <HBox alignment="CENTER">
+               <Button fx:id="addSigFromFileButton" mnemonicParsing="false" text="Add Signature From File"/>
+            </HBox>
+         </VBox>
+      </ScrollPane>
+   </AnchorPane>
+   <VBox alignment="CENTER">
+      <Canvas fx:id="previewCanvas" height="294.0" style="-: white;" width="220.0"/>
+      <HBox alignment="CENTER" spacing="10.0">
+         <Button fx:id="fullSizePreviewButton" mnemonicParsing="false" text="Full Size Preview"/>
+         <Button fx:id="savePostrButton" mnemonicParsing="false" text="Save Postr"/>
+      </HBox>
+   </VBox>
 </SplitPane>
