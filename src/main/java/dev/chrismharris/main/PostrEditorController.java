@@ -11,6 +11,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
@@ -18,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -26,7 +29,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class PostrEditorController {
 
@@ -244,6 +250,9 @@ public class PostrEditorController {
     public Spinner<Integer> signatureHeightSpinner;
     @FXML
     public CheckBox signaturePreserveRatioCheckBox;
+    @FXML
+    public Button regeneratePostrButton;
+
     @SuppressWarnings("unused")
     public static ObservableList<PostrTrack> trackList = FXCollections.observableArrayList();
 
@@ -251,18 +260,31 @@ public class PostrEditorController {
     public boolean textFieldsLoaded = false;
     public boolean tracksLoaded = false;
 
+    public String errorMessage = "";
+
+    ArrayList<String> availableFonts;
+
     ChangeListener<Object> listener = ((observable, oldValue, newValue) -> {
         System.out.println("[BASIC LISTENER]: " + observable.toString() + " changed from "
                 + (oldValue == null ? "null" : oldValue.toString()) + " to " + newValue.toString() + "!");
-        if (colorPickersLoaded && textFieldsLoaded && tracksLoaded)
-            generateImage(IntroController.currentlySelected);
     });
 
     @FXML
     public void initialize() {
+        String[] af = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        availableFonts = new ArrayList<>();
+        availableFonts.addAll(Arrays.asList(af));
+
         giveListenerToAllVariables();
 
         loadFromAlbum(IntroController.currentlySelected);
+
+        regeneratePostrButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                generateImage(IntroController.currentlySelected);
+            }
+        });
     }
 
     public void giveListenerToAllVariables() {
@@ -458,59 +480,117 @@ public class PostrEditorController {
         g.fillRect(0, 0, 1200, 1600);
 
         // -- DRAW ALBUM ART --
-        g.drawImage(albumArt, 105, 212, 990, 990, java.awt.Color.WHITE, null);
+        // TODO: Initial bounds: 105, 212, 990, 990
+        // TODO: Add option to change fill color
+        g.drawImage(albumArt, albumArtXPositionSpinner.getValue(),
+                albumArtYPositionSpinner.getValue(),
+                albumArtWidthSpinner.getValue(),
+                albumArtHeightSpinner.getValue(),
+                java.awt.Color.WHITE, null);
+
+        // -- LOAD FONTS
+        // TODO: Make weight and size changeable
+        Font globalFont, titleFont, releaseDateFont, tracksFont, artistFont;
+        java.awt.Color globalFontColor, titleFontColor, releaseDateFontColor, tracksFontColor1, tracksFontColor2, artistFontColor;
+
+        globalFont = titleFont = releaseDateFont = tracksFont = artistFont = null;
+        globalFontColor = titleFontColor = releaseDateFontColor = tracksFontColor1 = tracksFontColor2 = artistFontColor = null;
+
+        if (useGlobalFontFamilyCheckBox.isSelected()) {
+            String globalFontFamily = globalFontFamilyTextField.getText();
+
+            globalFont = validateFont(globalFontFamilyTextField, Font.PLAIN, 45);
+
+            g.setFont(globalFont);
+        } else {
+            titleFont = validateFont(titleFontFamilyTextField, Font.BOLD, 75);
+            releaseDateFont = validateFont(releaseDateFontFamilyTextField, Font.BOLD, 40);
+            tracksFont = validateFont(tracksFontFamilyTextField, Font.PLAIN, 25);
+        }
+
+        if (useGlobalFontColorCheckBox.isSelected()) {
+            globalFontColor = fxToSwingColor(globalFontColorPicker.getValue());
+        } else {
+            titleFontColor = fxToSwingColor(titleFontColorPicker.getValue());
+            releaseDateFontColor = fxToSwingColor(releaseDateFontColorPicker.getValue());
+            tracksFontColor1 = fxToSwingColor(tracksColor1Picker.getValue());
+            tracksFontColor2 = fxToSwingColor(tracksColor2Picker.getValue());
+        }
 
         // -- DRAW TEXT FIELDS --
-        g.setFont(new Font(
-                "Montserrat",
-                Font.BOLD,
-                75
-        ));
+        // TODO: Make lines editable or toggleable
         g.setColor(java.awt.Color.BLACK);
         g.setStroke(new BasicStroke(10f));
         g.drawLine(105, 50, 990, 50);
+
+        // draw album title
+        g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : titleFont);
+        g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : titleFontColor);
         g.drawString(postrTitleField.getText(), 105, 140);
 
-        g.setFont(new Font(
-                "Montserrat",
-                Font.BOLD,
-                40
-        ));
-        g.drawString(Integer.toString(postrReleaseDateField.getValue().getYear()), 1025, 75);
+        // draw release date
+        g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont);
+        g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : releaseDateFontColor);
+        String formattedReleaseDate;
+        try {
+            formattedReleaseDate = postrReleaseDateField.getValue().format(
+                    DateTimeFormatter.ofPattern(postrDateFormatField.getText()));
+            // TODO: Initial value 1025, 75
+            g.drawString(formattedReleaseDate, releaseDateXPositionSpinner.getValue(), releaseDateYPositionSpinner.getValue());
+        } catch (IllegalArgumentException e) {
+            addError("Release Date Format is Incorrect. Try yyyy-MM-dd");
+            g.drawString("!ERROR!", releaseDateXPositionSpinner.getValue(), releaseDateYPositionSpinner.getValue());
+        }
 
-        g.fillRect(105, (212 + 990), (int) (990.0 * 0.6), 75);
+        // TODO: Parameterize these 3 lines
+        // TODO: Make a spinner for ratio of artist:palette and allow the disabling of the palette
+        g.setColor(Color.BLACK);
+        g.fillRect(artistXPositionSpinner.getValue(), (albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue()),
+                (int) (albumArtWidthSpinner.getValue() * 0.6), 75);
         g.setColor(java.awt.Color.WHITE);
-        g.drawString(postrMainArtistField.getText(), 110, (212 + 990) + 10 + 40);
+        g.drawString(postrMainArtistField.getText(), artistXPositionSpinner.getValue() + 5, (albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue() + 50));
+
+        ArrayList<ColorPicker> palettePickers = new ArrayList<ColorPicker>();
+        palettePickers.add(paletteColor1ColorPicker);
+        palettePickers.add(paletteColor2ColorPicker);
+        palettePickers.add(paletteColor3ColorPicker);
+        palettePickers.add(paletteColor4ColorPicker);
+        palettePickers.add(paletteColor5ColorPicker);
+        palettePickers.add(paletteColor6ColorPicker);
+        palettePickers.add(paletteColor7ColorPicker);
+        palettePickers.add(paletteColor8ColorPicker);
+        palettePickers.add(paletteColor9ColorPicker);
+        palettePickers.add(paletteColor10ColorPicker);
 
         // -- DRAW COLOR PALETTE --
-        g.setColor(fxToSwingColor(paletteColor1ColorPicker.getValue()));
-        g.fillRect(105 + (int) (990 * 0.6), (212 + 990), (int) (990.0 * 0.4 * 0.2 * 1), 75);
-        g.setColor(fxToSwingColor(paletteColor2ColorPicker.getValue()));
-        g.fillRect(105 + (int) (990 * 0.6) + (int) (990.0 * 0.4 * 0.2 * 1), (212 + 990), (int) (990.0 * 0.4 * 0.2 * 1), 75);
-        g.setColor(fxToSwingColor(paletteColor3ColorPicker.getValue()));
-        g.fillRect(105 + (int) (990 * 0.6) + (int) (990.0 * 0.4 * 0.2 * 2), (212 + 990), (int) (990.0 * 0.4 * 0.2 * 1), 75);
-        g.setColor(fxToSwingColor(paletteColor4ColorPicker.getValue()));
-        g.fillRect(105 + (int) (990 * 0.6) + (int) (990.0 * 0.4 * 0.2 * 3), (212 + 990), (int) (990.0 * 0.4 * 0.2 * 1), 75);
-        g.setColor(fxToSwingColor(paletteColor5ColorPicker.getValue()));
-        g.fillRect(105 + (int) (990 * 0.6) + (int) (990.0 * 0.4 * 0.2 * 4), (212 + 990), (int) (990.0 * 0.4 * 0.2 * 1), 75);
+        for (int i = 0; i < paletteColorsNumberSpinner.getValue(); i++) {
+            g.setColor(fxToSwingColor(palettePickers.get(i).getValue()));
+            g.fillRect(
+                    artistXPositionSpinner.getValue() + paletteDistanceFromArtistSpinner.getValue() + (paletteHorizontalSpacingSpinner.getValue() * i),
+                    albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue(),
+                    paletteWidthSpinner.getValue() / paletteColorsNumberSpinner.getValue(),
+                    paletteHeightSpinner.getValue()
+            );
+        }
 
         // -- DRAW SONGS
-        // draw in columns of 7
         int i = 0;
         int v = 0;
         for (int j = 0; j < trackList.size(); j++) {
-            if (j % 7 == 0 && j != 0) {
+            if (j % numTracksPerColumnSpinner.getValue() == 0 && j != 0) {
                 i++;
                 v = 0;
             }
-            g.setColor(java.awt.Color.BLACK);
-            g.setFont(new Font(
-                    "Montserrat",
-                    Font.PLAIN,
-                    25
-            ));
+            g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : tracksFont);
+            g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : tracksFontColor1);
+            if (!useGlobalFontColorCheckBox.isSelected() && j % 2 == 0 && tracksAlternateColorsCheckBox.isSelected()) {
+                g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : tracksFontColor2);
+            }
+            // TODO: Implement newline threshold
             g.drawString(trackList.get(j).getTrackNumber() +
-                    ". " + trackList.get(j).getName(), 105 + (i * 350), (212 + 990 + 75 + 35 + (v * 40)));
+                            ". " + trackList.get(j).getName(),
+                    artistXPositionSpinner.getValue() + (i * tracksHorizontalSpacingSpinner.getValue()),
+                    ((albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue()) + 75 + 35 + (v * tracksVerticalSpacingSpinner.getValue())));
             v++;
         }
 
@@ -521,8 +601,42 @@ public class PostrEditorController {
 
         g.dispose();
 
+        if (!Objects.equals(errorMessage, "")) {
+            showErrorMessage();
+            return;
+        }
+
         previewCanvas.getGraphicsContext2D().drawImage(
                 SwingFXUtils.toFXImage(img, null), 0, 0, previewCanvas.getWidth(), previewCanvas.getHeight());
+    }
+
+    private Font validateFont(TextField fontFamilyField, int weight, int size) {
+        if (availableFonts.contains(fontFamilyField.getText())) {
+            return new Font(fontFamilyField.getText(), weight, size);
+        } else {
+            addError("Font '" + fontFamilyField.getText() + "' not available on this system");
+            return new Font("Times New Roman", weight, size);
+        }
+    }
+
+    private void showErrorMessage() {
+        Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.OK);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                Objects.requireNonNull(AlbumPostrApplication.class.getResource("/stylesheet/ap_style.css")).toExternalForm()
+        );
+        dialogPane.getStyleClass().add("selectionDialog");
+        alert.showAndWait();
+        clearErrors();
+    }
+
+    private void addError(String s) {
+        boolean newLine = Objects.equals(errorMessage, "");
+        errorMessage += (s + (newLine ? "\n" : ""));
+    }
+
+    private void clearErrors() {
+        errorMessage = "";
     }
 
     private java.awt.Color fxToSwingColor(javafx.scene.paint.Color c) {
