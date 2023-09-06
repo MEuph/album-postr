@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
-<SplitPane dividerPositions="0.49609375000000006" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+<SplitPane fx:id="mainSplitPane" dividerPositions="0.49609375000000006" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background_class"
            stylesheets="@../stylesheet/ap_style.css" xmlns="http://javafx.com/javafx/20.0.1"
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.chrismharris.main.PostrEditorController">
@@ -77,6 +77,26 @@
                   </font>
                </TextField>
             </HBox>
+            <HBox fx:id="enableTopLineCheckBoxHBox" alignment="CENTER" spacing="10.0">
+               <CheckBox fx:id="enableTopLineCheckBox"
+                         mnemonicParsing="false" prefHeight="17.0"
+                         prefWidth="95.0" text="Draw Top Line" selected="true"
+                         textFill="WHITE">
+                  <font>
+                     <Font name="Montserrat Regular" size="12.0"/>
+                  </font>
+               </CheckBox>
+            </HBox>
+            <HBox fx:id="enableBottomLineCheckBoxHBox" alignment="CENTER" spacing="10.0">
+               <CheckBox fx:id="enableBottomLineCheckBox"
+                         mnemonicParsing="false" prefHeight="17.0"
+                         prefWidth="95.0" text="Draw Bottom Line" selected="true"
+                         textFill="WHITE">
+                  <font>
+                     <Font name="Montserrat Regular" size="12.0"/>
+                  </font>
+               </CheckBox>
+            </HBox>
             <TitledPane fx:id="advancedSettingsTitledPane" expanded="false" styleClass="background_class"
                         text="Advanced Settings">
                <VBox fx:id="advancedSettingsVBox" styleClass="background_class">
@@ -118,6 +138,7 @@
                               </valueFactory>
                            </Spinner>
                         </HBox>
+                        <ColorPicker fx:id="postrArtFillColor" style="-fx-background-color: #404040;"/>
                         <TextField fx:id="albumArtUrlTextField" promptText="Image URL">
                            <font>
                               <Font name="Montserrat Regular" size="12.0"/>
@@ -786,6 +807,78 @@
                                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
                                                                    initialValue="15"
                                                                    amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                           </VBox>
+                        </TitledPane>
+
+                        <TitledPane fx:id="artistColorAndFontSettingsTitledPane" expanded="false"
+                                    styleClass="background_class" text="Title">
+                           <VBox fx:id="artistColorAndFontSettingsVBox" prefHeight="200.0"
+                                 prefWidth="100.0" spacing="10.0" styleClass="background_class">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="91.0"
+                                        text="Font Family">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <TextField fx:id="artistFontFamilyTextField"
+                                            promptText="Enter Font Family"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER_RIGHT" prefHeight="15.0"
+                                        prefWidth="135.0" text="Font Color"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="artistFontColorPicker"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="115.0"
+                                    spacing="10.0">
+                                 <Label alignment="CENTER" prefHeight="15.0"
+                                        prefWidth="161.0" text="Background Color"
+                                        textAlignment="CENTER">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <ColorPicker fx:id="artistBackgroundColorPicker"
+                                              prefHeight="17.0" prefWidth="151.0"
+                                              style="-fx-background-color: #404040;"/>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="H Margins">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="artistBackgroundHorizontalMarginsSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1200"
+                                                                                       initialValue="15"
+                                                                                       amountToStepBy="5"/>
+                                    </valueFactory>
+                                 </Spinner>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <Label prefHeight="17.0" prefWidth="203.0"
+                                        text="V Margins">
+                                    <font>
+                                       <Font name="Montserrat Regular" size="12.0"/>
+                                    </font>
+                                 </Label>
+                                 <Spinner fx:id="artistBackgroundVerticalMarginsSpinner">
+                                    <valueFactory>
+                                       <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1600"
+                                                                                       initialValue="15"
+                                                                                       amountToStepBy="5"/>
                                     </valueFactory>
                                  </Spinner>
                               </HBox>

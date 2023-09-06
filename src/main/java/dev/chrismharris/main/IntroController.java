@@ -4,6 +4,7 @@ import dev.chrismharris.album.PostrAlbum;
 import dev.chrismharris.table.AlbumCellKeyHandler;
 import dev.chrismharris.table.AlbumCellMouseHandler;
 import dev.chrismharris.table.StringTableCell;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,9 +27,15 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 import se.michaelthelin.spotify.requests.data.search.simplified.SearchAlbumsRequest;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.*;
 
 public class IntroController {
+
+    @FXML
+    Label infoLabel;
 
     @FXML
     Button searchButton;
@@ -43,6 +50,8 @@ public class IntroController {
     private static final String clientId = Keys.CLIENT_ID;
     private static final String clientSecret = Keys.CLIENT_SECRET;
 
+    public static final ExecutorService executor = Executors.newFixedThreadPool(4);
+
     public static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId(clientId)
             .setClientSecret(clientSecret)
@@ -51,6 +60,8 @@ public class IntroController {
             .build();
 
     public static PostrAlbum currentlySelected;
+
+    private boolean loading = false;
 
     public static void clientCredentials_Sync() {
         try {
@@ -65,26 +76,47 @@ public class IntroController {
         }
     }
 
-    public static void searchForAlbums(String query) {
+    public void searchForAlbums(String query) throws InterruptedException {
+        if (loading) return;
+
         final SearchAlbumsRequest searchAlbumsRequest = spotifyApi.searchAlbums(query)
-                .limit(10)
+                .limit(20)
                 .build();
 
         try {
+            // Takes a little over a second
             final Paging<AlbumSimplified> albumSimplifiedPaging = searchAlbumsRequest.execute();
-
             AlbumSimplified[] albums = albumSimplifiedPaging.getItems();
-            if (albums.length > 0) {
+
+            // Clear what was previously table only if we get any results
+            if (!albumList.isEmpty() && albums.length > 0) {
                 albumList.clear();
             }
+
+            // Takes over a second for each album to load, so we'll do it concurrently
             for (AlbumSimplified a : albums) {
-                albumList.add(new PostrAlbum(a.getName(), a.getArtists(), a.getReleaseDate(), a.getImages()[0], a.getId()));
+                executor.execute(() -> {
+                    PostrAlbum p = new PostrAlbum(a.getName(), a.getArtists(), a.getReleaseDate(), a.getImages()[0], a.getId());
+                    Platform.runLater(() -> {
+                        loading = true;
+                        infoLabel.setText("Loaded " + p.getName() + "...");
+                        albumList.add(p);
+                        if (albumList.size() >= 20) {
+                            loading = false;
+                            infoLabel.setText("Finished loading!");
+                        }
+                    });
+                });
             }
-
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error when searching for album: " + "'" + query + "'" + e.getMessage());
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error when searching for album: " + "'" + query + "'\n" + e.getMessage(), ButtonType.OK);
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add(
+                    Objects.requireNonNull(AlbumPostrApplication.class.getResource("/stylesheet/ap_style.css")).toExternalForm()
+            );
+            dialogPane.getStyleClass().add("selectionDialog");
+            alert.showAndWait();
         }
-
     }
 
     @FXML
@@ -110,7 +142,7 @@ public class IntroController {
 
         TableColumn<PostrAlbum, String> colDate = new TableColumn<>("Release Date");
         colDate.setCellValueFactory(
-                new PropertyValueFactory<PostrAlbum, String>("releaseDate"));
+                new PropertyValueFactory<>("releaseDate"));
         colDate.setCellFactory(stringCellFactory);
 
         TableColumn<PostrAlbum, ImageView> colImg = new TableColumn<>("Album Art");
@@ -122,7 +154,11 @@ public class IntroController {
         searchButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                searchForAlbums(searchQuery.getText());
+                try {
+                    searchForAlbums(searchQuery.getText());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -137,7 +173,7 @@ public class IntroController {
     public static void promptForContinuation(PostrAlbum a) {
         IntroController.currentlySelected = a;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to use this album?", ButtonType.YES, ButtonType.NO);
-        ImageView imageView = new ImageView(new Image(a.getAlbumArt().getImage().getUrl(), 100, 100, true, true));
+        ImageView imageView = new ImageView(a.getAlbumArtThumbnail());
         alert.setGraphic(imageView);
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(
@@ -152,8 +188,6 @@ public class IntroController {
     }
 
     public static void continueWithSelectedAlbum() {
-        // TODO: Move this to its own Application class and auto-populate fields in the application
-        // TODO: Generate image, then open new window to edit and save generated image
         try {
             PostrEditorApplication.start();
         } catch (Exception e) {

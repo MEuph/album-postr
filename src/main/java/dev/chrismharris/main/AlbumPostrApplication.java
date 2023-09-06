@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.concurrent.TimeUnit;
+
 public class AlbumPostrApplication extends Application {
 
     public static final boolean DEBUG = false;
@@ -21,6 +23,14 @@ public class AlbumPostrApplication extends Application {
         stage.setResizable(false);
 
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+
+        IntroController.executor.shutdownNow();
+        System.exit(0);
     }
 
     public static void main(String[] args) {
