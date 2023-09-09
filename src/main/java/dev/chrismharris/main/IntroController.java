@@ -3,6 +3,7 @@ package dev.chrismharris.main;
 import dev.chrismharris.album.PostrAlbum;
 import dev.chrismharris.table.AlbumCellKeyHandler;
 import dev.chrismharris.table.AlbumCellMouseHandler;
+import dev.chrismharris.table.ImageTableCell;
 import dev.chrismharris.table.StringTableCell;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -150,6 +151,13 @@ public class IntroController {
                     cell.addEventHandler(KeyEvent.KEY_TYPED, new AlbumCellKeyHandler());
                     return cell;
                 };
+        Callback<TableColumn<PostrAlbum, Object>, TableCell<PostrAlbum, Object>> objectCellFactory =
+                param -> {
+                    ImageTableCell cell = new ImageTableCell();
+                    cell.addEventFilter(MouseEvent.MOUSE_CLICKED, new AlbumCellMouseHandler());
+                    cell.addEventHandler(KeyEvent.KEY_TYPED, new AlbumCellKeyHandler());
+                    return cell;
+                };
 
         TableColumn<PostrAlbum, String> colName = new TableColumn<>("Album Name");
         colName.setCellValueFactory(
@@ -170,6 +178,10 @@ public class IntroController {
         colImg.setCellValueFactory(new PropertyValueFactory<>("albumArt"));
 
         albumTableView.setItems(albumList);
+        colImg.setPrefWidth(600.0/4.0);
+        colName.setPrefWidth(600.0/4.0);
+        colArtists.setPrefWidth(600.0/4.0);
+        colDate.setPrefWidth(600.0/4.0);
         albumTableView.getColumns().addAll(colImg, colName, colArtists, colDate);
 
         searchButton.setOnAction(new EventHandler<ActionEvent>() {

@@ -9,6 +9,7 @@ import dev.chrismharris.table.StringTableCell;
 import dev.chrismharris.table.TimeTableCell;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -29,9 +30,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -280,6 +280,32 @@ public class PostrEditorController {
     public HBox enableBottomLineCheckBoxHBox;
     @FXML
     public CheckBox enableBottomLineCheckBox;
+    @FXML
+    public Spinner<Integer> globalFontSizeSpinner;
+    @FXML
+    public CheckBox useGlobalFontSizeCheckBox;
+    @FXML
+    public Spinner<Integer> tracksFontSizeSpinner;
+    @FXML
+    public Spinner<Integer> releaseDateFontSizeSpinner;
+    @FXML
+    public Spinner<Integer> titleFontSizeSpinner;
+    @FXML
+    public Spinner<Integer> artistFontSizeSpinner;
+    @FXML
+    public ComboBox<String> globalFontWeightComboBox;
+    @FXML
+    public ComboBox<String> titleFontWeightComboBox;
+    @FXML
+    public ComboBox<String> releaseDateFontWeightComboBox;
+    @FXML
+    public ComboBox<String> tracksFontWeightComboBox;
+    @FXML
+    public ComboBox<String> artistFontWeightComboBox;
+    @FXML
+    public CheckBox useGlobalFontWeightCheckBox;
+    @FXML
+    public CheckBox darkToLightCheckBox;
 
     public static final ExecutorService executor = Executors.newFixedThreadPool(1);
 
@@ -288,6 +314,7 @@ public class PostrEditorController {
     public boolean colorPickersLoaded = false;
     public boolean textFieldsLoaded = false;
     public boolean tracksLoaded = false;
+    public boolean comboBoxesLoaded = false;
     public boolean isLoading = false;
     public String errorMessage = "";
 
@@ -303,19 +330,23 @@ public class PostrEditorController {
 
     @FXML
     public void initialize() {
-        String[] af = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        String[] availableFontFamilyNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         availableFonts = new ArrayList<>();
-        availableFonts.addAll(Arrays.asList(af));
+        availableFonts.addAll(Arrays.asList(availableFontFamilyNames));
 
         giveListenerToAllVariables();
 
         loadSpinnersList();
 
+        darkToLightCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            loadPaletteColorPickers(IntroController.currentlySelected);
+            generateImage(IntroController.currentlySelected);
+        });
+
         for (Spinner<Integer> i : integerSpinners) {
             i.setEditable(true);
         }
 
-        loadFromAlbum(IntroController.currentlySelected);
 
         regeneratePostrButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -329,6 +360,31 @@ public class PostrEditorController {
                 });
             }
         });
+
+        loadFromAlbum(IntroController.currentlySelected);
+    }
+
+    public void loadComboBoxes() {
+        ObservableList<String> weightOptions = FXCollections.observableArrayList(
+                "Plain",
+                "Bold",
+                "Italic",
+                "ItalicBold"
+        );
+
+        globalFontWeightComboBox.setItems(weightOptions);
+        titleFontWeightComboBox.setItems(weightOptions);
+        releaseDateFontWeightComboBox.setItems(weightOptions);
+        tracksFontWeightComboBox.setItems(weightOptions);
+        artistFontWeightComboBox.setItems(weightOptions);
+
+        globalFontWeightComboBox.setValue(weightOptions.get(0));
+        titleFontWeightComboBox.setValue(weightOptions.get(0));
+        releaseDateFontWeightComboBox.setValue(weightOptions.get(0));
+        tracksFontWeightComboBox.setValue(weightOptions.get(0));
+        artistFontWeightComboBox.setValue(weightOptions.get(0));
+
+        comboBoxesLoaded = true;
     }
 
     public void loadSpinnersList() {
@@ -361,6 +417,10 @@ public class PostrEditorController {
         integerSpinners.add(signatureHeightSpinner);
         integerSpinners.add(artistBackgroundHorizontalMarginsSpinner);
         integerSpinners.add(artistBackgroundVerticalMarginsSpinner);
+        integerSpinners.add(globalFontSizeSpinner);
+        integerSpinners.add(titleFontSizeSpinner);
+        integerSpinners.add(releaseDateFontSizeSpinner);
+        integerSpinners.add(tracksFontSizeSpinner);
     }
 
     public void giveListenerToAllVariables() {
@@ -438,19 +498,73 @@ public class PostrEditorController {
         loadColorPickers(a);
         loadTextFields(a);
         loadTracks(a);
+        loadComboBoxes();
 
         isLoading = true;
         executor.execute(() -> Platform.runLater(() -> generateImage(a)));
     }
 
+    public static HashMap<Integer, Double> sortPaletteByLuminance(HashMap<Integer, Double> unsorted, boolean darkToLight)
+    {
+        // Create a list from elements of HashMap
+        List<Map.Entry<Integer, Double> > list =
+                new LinkedList<Map.Entry<Integer, Double> >(unsorted.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Double> >() {
+            public int compare(Map.Entry<Integer, Double> o1,
+                               Map.Entry<Integer, Double> o2)
+            {
+                return (darkToLight ? 1 : -1) * (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<Integer, Double> temp = new LinkedHashMap<Integer, Double>();
+        for (Map.Entry<Integer, Double> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
+    
     private void loadColorPickers(PostrAlbum a) {
+        loadFromPalette(postrBackgroundColor, new int[][]{
+                {232, 228, 214} // off-white
+        }, 0);
+
+        loadPaletteColorPickers(a);
+
+        titleFontColorPicker.setValue(javafx.scene.paint.Color.BLACK);
+        releaseDateFontColorPicker.setValue(javafx.scene.paint.Color.BLACK);
+        tracksColor1Picker.setValue(javafx.scene.paint.Color.BLACK);
+        tracksColor2Picker.setValue(javafx.scene.paint.Color.BLACK);
+        artistFontColorPicker.setValue(javafx.scene.paint.Color.WHITE);
+        artistBackgroundColorPicker.setValue(javafx.scene.paint.Color.BLACK);
+
+        postrArtFillColor.setValue(javafx.scene.paint.Color.WHITE);
+
+        colorPickersLoaded = true;
+    }
+
+    private void loadPaletteColorPickers(PostrAlbum a) {
         // get palette from image using ColorThief
         BufferedImage img = SwingFXUtils.fromFXImage(a.getAlbumArt().getImage(), null);
         MMCQ.CMap result = ColorThief.getColorMap(img, 10);
 
-        loadFromPalette(postrBackgroundColor, new int[][]{
-                {232, 228, 214} // off-white
-        }, 0);
+        int[][] unsortedPalette = result.palette();
+        HashMap<Integer, Double> unsortedPaletteMap = new HashMap<Integer, Double>();
+
+        // sort palette by brightness in decreasing order
+        for (int i = 0; i < unsortedPalette.length; i++) {
+            unsortedPaletteMap.put(i, Math.sqrt(
+                    0.299 * Math.pow(unsortedPalette[i][0] / 255.0, 2) +
+                            0.587 * Math.pow(unsortedPalette[i][1] / 255.0, 2) +
+                            0.114 * Math.pow(unsortedPalette[i][2] / 255.0, 2)
+            ));
+        }
+
+        Map<Integer, Double> palette = sortPaletteByLuminance(unsortedPaletteMap, darkToLightCheckBox.isSelected());
+
 
         ColorPicker[] pickers = new ColorPicker[]{
                 paletteColor1ColorPicker,
@@ -466,20 +580,11 @@ public class PostrEditorController {
         };
 
         // populate color pickers
-        for (int i = 0; i < result.palette().length; i++) {
-            loadFromPalette(pickers[i], result.palette(), i);
+        int i = 0;
+        for (Map.Entry<Integer, Double> en: palette.entrySet()) {
+            loadFromPalette(pickers[i], result.palette(), en.getKey());
+            i++;
         }
-
-        titleFontColorPicker.setValue(javafx.scene.paint.Color.BLACK);
-        releaseDateFontColorPicker.setValue(javafx.scene.paint.Color.BLACK);
-        tracksColor1Picker.setValue(javafx.scene.paint.Color.BLACK);
-        tracksColor2Picker.setValue(javafx.scene.paint.Color.BLACK);
-        artistFontColorPicker.setValue(javafx.scene.paint.Color.WHITE);
-        artistBackgroundColorPicker.setValue(javafx.scene.paint.Color.BLACK);
-
-        postrArtFillColor.setValue(javafx.scene.paint.Color.WHITE);
-
-        colorPickersLoaded = true;
     }
 
     private void loadFromPalette(ColorPicker picker, int[][] palette, int index) {
@@ -515,10 +620,8 @@ public class PostrEditorController {
     }
 
     private void loadTracks(PostrAlbum a) {
-        trackList.clear();
-
         ArrayList<PostrTrack> tracks = a.getTracks();
-        trackList.addAll(tracks);
+        trackList.setAll(tracks);
 
         trackTableView.setEditable(false);
         Callback<TableColumn, TableCell> stringCellFactory =
@@ -568,7 +671,9 @@ public class PostrEditorController {
         trackDurationCol.setCellFactory(timeCellFactory);
 
         trackTableView.setItems(trackList);
+        trackTableView.getColumns().clear();
         trackTableView.getColumns().addAll(trackNumberCol, trackNameCol, trackDurationCol);
+        trackTableView.setMinHeight(150);
 
         tracksLoaded = true;
     }
@@ -592,7 +697,7 @@ public class PostrEditorController {
                 fxToSwingColor(postrArtFillColor.getValue()), null);
 
         // -- LOAD FONTS
-        // TODO: Make weight and size changeable
+        // TODO: Make weight changeable
         Font globalFont, titleFont, releaseDateFont, tracksFont, artistFont;
         java.awt.Color globalFontColor, titleFontColor, releaseDateFontColor, tracksFontColor1, tracksFontColor2, artistFontColor;
 
@@ -600,14 +705,22 @@ public class PostrEditorController {
         globalFontColor = titleFontColor = releaseDateFontColor = tracksFontColor1 = tracksFontColor2 = artistFontColor = null;
 
         if (useGlobalFontFamilyCheckBox.isSelected()) {
-            globalFont = validateFont(globalFontFamilyTextField, Font.PLAIN, 45);
+            if (useGlobalFontSizeCheckBox.isSelected()) {
+                globalFont = validateFont(globalFontFamilyTextField,
+                        useGlobalFontWeightCheckBox.isSelected() ? parseWeight(globalFontWeightComboBox.getValue()) :
+                                Font.PLAIN, globalFontSizeSpinner.getValue());
+            } else {
+                globalFont = validateFont(globalFontFamilyTextField,
+                        useGlobalFontWeightCheckBox.isSelected() ? parseWeight(globalFontWeightComboBox.getValue()) :
+                                Font.PLAIN, 45);
+            }
 
             g.setFont(globalFont);
         } else {
-            titleFont = validateFont(titleFontFamilyTextField, Font.BOLD, 75);
-            releaseDateFont = validateFont(releaseDateFontFamilyTextField, Font.BOLD, 40);
-            tracksFont = validateFont(tracksFontFamilyTextField, Font.PLAIN, 25);
-            artistFont = validateFont(artistFontFamilyTextField, Font.PLAIN, 25);
+            titleFont = validateFont(titleFontFamilyTextField, parseWeight(titleFontWeightComboBox.getValue()), titleFontSizeSpinner.getValue());
+            releaseDateFont = validateFont(releaseDateFontFamilyTextField, parseWeight(releaseDateFontWeightComboBox.getValue()), releaseDateFontSizeSpinner.getValue());
+            tracksFont = validateFont(tracksFontFamilyTextField, parseWeight(tracksFontWeightComboBox.getValue()), tracksFontSizeSpinner.getValue());
+            artistFont = validateFont(artistFontFamilyTextField, parseWeight(artistFontWeightComboBox.getValue()), artistFontSizeSpinner.getValue());
         }
 
         if (useGlobalFontColorCheckBox.isSelected()) {
@@ -761,5 +874,15 @@ public class PostrEditorController {
         int b = (int) (c.getBlue() * 255.0);
 
         return new java.awt.Color(r, g, b);
+    }
+
+    int parseWeight(String s) {
+        if (s == null) return Font.PLAIN;
+        return switch (s) {
+            case "Bold" -> Font.BOLD;
+            case "Italic" -> Font.ITALIC;
+            case "ItalicBold" -> Font.BOLD | Font.ITALIC;
+            default -> Font.PLAIN;
+        };
     }
 }
