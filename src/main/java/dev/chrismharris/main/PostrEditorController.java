@@ -858,7 +858,6 @@ public class PostrEditorController {
         }
 
         // -- DRAW LINES --
-        // TODO: Make lines editable
         if (enableTopLineCheckBox.isSelected()) {
             g.setColor(fxToSwingColor(topLineColorPicker.getValue()));
             g.setStroke(new BasicStroke((float)topLineThicknessSpinner.getValue()));
