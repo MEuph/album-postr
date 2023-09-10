@@ -315,6 +315,30 @@ public class PostrEditorController {
     public Spinner<Integer> paletteXOffsetSpinner;
     @FXML
     public Spinner<Integer> paletteYOffsetSpinner;
+    @FXML
+    public Spinner<Integer> topLineX1PositionSpinner;
+    @FXML
+    public Spinner<Integer> topLineY1PositionSpinner;
+    @FXML
+    public Spinner<Integer> topLineX2PositionSpinner;
+    @FXML
+    public Spinner<Integer> topLineY2PositionSpinner;
+    @FXML
+    public Spinner<Integer> topLineThicknessSpinner;
+    @FXML
+    public ColorPicker topLineColorPicker;
+    @FXML
+    public Spinner<Integer> bottomLineX1PositionSpinner;
+    @FXML
+    public Spinner<Integer> bottomLineY1PositionSpinner;
+    @FXML
+    public Spinner<Integer> bottomLineX2PositionSpinner;
+    @FXML
+    public Spinner<Integer> bottomLineY2PositionSpinner;
+    @FXML
+    public Spinner<Integer> bottomLineThicknessSpinner;
+    @FXML
+    public ColorPicker bottomLineColorPicker;
 
     public static final ExecutorService executor = Executors.newFixedThreadPool(1);
 
@@ -425,6 +449,16 @@ public class PostrEditorController {
         integerSpinners.add(artistFontSizeSpinner);
         integerSpinners.add(paletteXOffsetSpinner);
         integerSpinners.add(paletteYOffsetSpinner);
+        integerSpinners.add(topLineX1PositionSpinner);
+        integerSpinners.add(topLineY1PositionSpinner);
+        integerSpinners.add(topLineX2PositionSpinner);
+        integerSpinners.add(topLineY2PositionSpinner);
+        integerSpinners.add(topLineThicknessSpinner);
+        integerSpinners.add(bottomLineX1PositionSpinner);
+        integerSpinners.add(bottomLineY1PositionSpinner);
+        integerSpinners.add(bottomLineX2PositionSpinner);
+        integerSpinners.add(bottomLineY2PositionSpinner);
+        integerSpinners.add(bottomLineThicknessSpinner);
     }
 
     public void giveListenerToAllVariables() {
@@ -540,6 +574,9 @@ public class PostrEditorController {
 
         postrArtFillColor.setValue(javafx.scene.paint.Color.WHITE);
 
+        topLineColorPicker.setValue(javafx.scene.paint.Color.BLACK);
+        bottomLineColorPicker.setValue(javafx.scene.paint.Color.BLACK);
+        
         colorPickersLoaded = true;
     }
 
@@ -772,7 +809,6 @@ public class PostrEditorController {
 
 
         // -- DRAW COLOR PALETTE --
-        // TODO: Add custom X, Y offset
 
         if (enablePaletteCheckBox.isSelected()) {
             ArrayList<ColorPicker> palettePickers = new ArrayList<>();
@@ -824,15 +860,15 @@ public class PostrEditorController {
         // -- DRAW LINES --
         // TODO: Make lines editable
         if (enableTopLineCheckBox.isSelected()) {
-            g.setColor(java.awt.Color.BLACK);
-            g.setStroke(new BasicStroke(10f));
-            g.drawLine(105, 50, 990, 50);
+            g.setColor(fxToSwingColor(topLineColorPicker.getValue()));
+            g.setStroke(new BasicStroke((float)topLineThicknessSpinner.getValue()));
+            g.drawLine(topLineX1PositionSpinner.getValue(), topLineY1PositionSpinner.getValue(), topLineX2PositionSpinner.getValue(), topLineY2PositionSpinner.getValue());
         }
 
         if (enableBottomLineCheckBox.isSelected()) {
-            g.setColor(java.awt.Color.BLACK);
-            g.setStroke(new BasicStroke(10f));
-            g.drawLine(105, 1580, 1200 - 105, 1580);
+            g.setColor(fxToSwingColor(bottomLineColorPicker.getValue()));
+            g.setStroke(new BasicStroke((float)bottomLineThicknessSpinner.getValue()));
+            g.drawLine(bottomLineX1PositionSpinner.getValue(), bottomLineY1PositionSpinner.getValue(), bottomLineX2PositionSpinner.getValue(), bottomLineY2PositionSpinner.getValue());
         }
 
         g.dispose();
