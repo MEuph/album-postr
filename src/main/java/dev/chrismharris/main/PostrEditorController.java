@@ -9,7 +9,6 @@ import dev.chrismharris.table.StringTableCell;
 import dev.chrismharris.table.TimeTableCell;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -30,11 +29,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+// TODO: Add signature
+// TODO: Add track editing
+// TODO: Implement full size preview button
+// TODO: Implement save postr button
 public class PostrEditorController {
 
     @FXML
@@ -306,6 +309,10 @@ public class PostrEditorController {
     public CheckBox useGlobalFontWeightCheckBox;
     @FXML
     public CheckBox darkToLightCheckBox;
+    @FXML
+    public HBox enablePaletteCheckBoxHBox;
+    @FXML
+    public CheckBox enablePaletteCheckBox;
 
     public static final ExecutorService executor = Executors.newFixedThreadPool(1);
 
@@ -346,7 +353,6 @@ public class PostrEditorController {
         for (Spinner<Integer> i : integerSpinners) {
             i.setEditable(true);
         }
-
 
         regeneratePostrButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -421,6 +427,7 @@ public class PostrEditorController {
         integerSpinners.add(titleFontSizeSpinner);
         integerSpinners.add(releaseDateFontSizeSpinner);
         integerSpinners.add(tracksFontSizeSpinner);
+        integerSpinners.add(artistFontSizeSpinner);
     }
 
     public void giveListenerToAllVariables() {
@@ -504,17 +511,15 @@ public class PostrEditorController {
         executor.execute(() -> Platform.runLater(() -> generateImage(a)));
     }
 
-    public static HashMap<Integer, Double> sortPaletteByLuminance(HashMap<Integer, Double> unsorted, boolean darkToLight)
-    {
+    public static HashMap<Integer, Double> sortPaletteByLuminance(HashMap<Integer, Double> unsorted, boolean darkToLight) {
         // Create a list from elements of HashMap
-        List<Map.Entry<Integer, Double> > list =
-                new LinkedList<Map.Entry<Integer, Double> >(unsorted.entrySet());
+        List<Map.Entry<Integer, Double>> list =
+                new LinkedList<Map.Entry<Integer, Double>>(unsorted.entrySet());
 
         // Sort the list
-        Collections.sort(list, new Comparator<Map.Entry<Integer, Double> >() {
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>() {
             public int compare(Map.Entry<Integer, Double> o1,
-                               Map.Entry<Integer, Double> o2)
-            {
+                               Map.Entry<Integer, Double> o2) {
                 return (darkToLight ? 1 : -1) * (o1.getValue()).compareTo(o2.getValue());
             }
         });
@@ -526,7 +531,7 @@ public class PostrEditorController {
         }
         return temp;
     }
-    
+
     private void loadColorPickers(PostrAlbum a) {
         loadFromPalette(postrBackgroundColor, new int[][]{
                 {232, 228, 214} // off-white
@@ -549,7 +554,7 @@ public class PostrEditorController {
     private void loadPaletteColorPickers(PostrAlbum a) {
         // get palette from image using ColorThief
         BufferedImage img = SwingFXUtils.fromFXImage(a.getAlbumArt().getImage(), null);
-        MMCQ.CMap result = ColorThief.getColorMap(img, 10);
+        MMCQ.CMap result = ColorThief.getColorMap(img, paletteColorsNumberSpinner.getValue());
 
         int[][] unsortedPalette = result.palette();
         HashMap<Integer, Double> unsortedPaletteMap = new HashMap<Integer, Double>();
@@ -564,7 +569,6 @@ public class PostrEditorController {
         }
 
         Map<Integer, Double> palette = sortPaletteByLuminance(unsortedPaletteMap, darkToLightCheckBox.isSelected());
-
 
         ColorPicker[] pickers = new ColorPicker[]{
                 paletteColor1ColorPicker,
@@ -581,9 +585,12 @@ public class PostrEditorController {
 
         // populate color pickers
         int i = 0;
-        for (Map.Entry<Integer, Double> en: palette.entrySet()) {
+        for (Map.Entry<Integer, Double> en : palette.entrySet()) {
             loadFromPalette(pickers[i], result.palette(), en.getKey());
             i++;
+        }
+        for (int j = i; j < 10; j++) {
+            pickers[j].setValue(new javafx.scene.paint.Color(0, 0, 0, 1));
         }
     }
 
@@ -679,8 +686,13 @@ public class PostrEditorController {
     }
 
     private void generateImage(PostrAlbum a) {
+        // TODO: Cause of Bug
+        // changes made to palette are overwritten
+        loadPaletteColorPickers(a);
+
         previewCanvas.getGraphicsContext2D().clearRect(0, 0, previewCanvas.getWidth(), previewCanvas.getHeight());
         BufferedImage img = new BufferedImage(1200, 1600, BufferedImage.TYPE_INT_RGB);
+        // TODO: Change "Album Art is Square" to "Preserve Ratio"
         Image art = new Image(albumArtUrlTextField.getText(), albumArtWidthSpinner.getValue(), albumArtHeightSpinner.getValue(), albumArtSquareCheckBox.isSelected(), true);
         BufferedImage albumArt = SwingFXUtils.fromFXImage(art, null);
         Graphics2D g = (Graphics2D) img.getGraphics();
@@ -697,7 +709,6 @@ public class PostrEditorController {
                 fxToSwingColor(postrArtFillColor.getValue()), null);
 
         // -- LOAD FONTS
-        // TODO: Make weight changeable
         Font globalFont, titleFont, releaseDateFont, tracksFont, artistFont;
         java.awt.Color globalFontColor, titleFontColor, releaseDateFontColor, tracksFontColor1, tracksFontColor2, artistFontColor;
 
@@ -737,6 +748,7 @@ public class PostrEditorController {
 
         // draw album title
         // TODO: Implement margins and background
+        // TODO: Use X Y position spinners
         g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : titleFont);
         g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : titleFontColor);
         g.drawString(postrTitleField.getText(), 105, 140);
@@ -755,8 +767,9 @@ public class PostrEditorController {
             g.drawString("!ERROR!", releaseDateXPositionSpinner.getValue(), releaseDateYPositionSpinner.getValue());
         }
 
+        // TODO: Make a button to align the right edge of the palette with the right edge of the album art
+
         // -- draw main artist name
-        // TODO: Make a spinner for ratio of artist:palette and allow the disabling of the palette
         // TODO: Implement margins and background
         g.setColor(fxToSwingColor(artistBackgroundColorPicker.getValue()));
         g.fillRect(artistXPositionSpinner.getValue(), (albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue()),
@@ -765,28 +778,31 @@ public class PostrEditorController {
         g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : artistFontColor);
         g.drawString(postrMainArtistField.getText(), artistXPositionSpinner.getValue() + 5, (albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue() + 50));
 
-        ArrayList<ColorPicker> palettePickers = new ArrayList<>();
-        palettePickers.add(paletteColor1ColorPicker);
-        palettePickers.add(paletteColor2ColorPicker);
-        palettePickers.add(paletteColor3ColorPicker);
-        palettePickers.add(paletteColor4ColorPicker);
-        palettePickers.add(paletteColor5ColorPicker);
-        palettePickers.add(paletteColor6ColorPicker);
-        palettePickers.add(paletteColor7ColorPicker);
-        palettePickers.add(paletteColor8ColorPicker);
-        palettePickers.add(paletteColor9ColorPicker);
-        palettePickers.add(paletteColor10ColorPicker);
 
         // -- DRAW COLOR PALETTE --
         // TODO: Add custom X, Y offset
-        for (int i = 0; i < paletteColorsNumberSpinner.getValue(); i++) {
-            g.setColor(fxToSwingColor(palettePickers.get(i).getValue()));
-            g.fillRect(
-                    artistXPositionSpinner.getValue() + paletteDistanceFromArtistSpinner.getValue() + (paletteHorizontalSpacingSpinner.getValue() * i),
-                    albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue(),
-                    paletteWidthSpinner.getValue(),
-                    paletteHeightSpinner.getValue()
-            );
+
+        if (enablePaletteCheckBox.isSelected()) {
+            ArrayList<ColorPicker> palettePickers = new ArrayList<>();
+            palettePickers.add(paletteColor1ColorPicker);
+            palettePickers.add(paletteColor2ColorPicker);
+            palettePickers.add(paletteColor3ColorPicker);
+            palettePickers.add(paletteColor4ColorPicker);
+            palettePickers.add(paletteColor5ColorPicker);
+            palettePickers.add(paletteColor6ColorPicker);
+            palettePickers.add(paletteColor7ColorPicker);
+            palettePickers.add(paletteColor8ColorPicker);
+            palettePickers.add(paletteColor9ColorPicker);
+            palettePickers.add(paletteColor10ColorPicker);
+            for (int i = 0; i < paletteColorsNumberSpinner.getValue(); i++) {
+                g.setColor(fxToSwingColor(palettePickers.get(i).getValue()));
+                g.fillRect(
+                        artistXPositionSpinner.getValue() + paletteDistanceFromArtistSpinner.getValue() + (paletteHorizontalSpacingSpinner.getValue() * i),
+                        albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue(),
+                        paletteWidthSpinner.getValue(),
+                        paletteHeightSpinner.getValue()
+                );
+            }
         }
 
         // -- DRAW SONGS

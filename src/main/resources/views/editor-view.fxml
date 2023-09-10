@@ -76,18 +76,27 @@
                     </TextField>
                 </HBox>
                 <HBox fx:id="enableTopLineCheckBoxHBox" alignment="CENTER" spacing="10.0">
-                    <CheckBox fx:id="enableTopLineCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" selected="true" text="Draw Top Line" textFill="WHITE">
+                    <CheckBox fx:id="enableTopLineCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" selected="true" text="Draw Top Line" textFill="WHITE">
                         <font>
                             <Font name="Montserrat Regular" size="12.0" />
                         </font>
                     </CheckBox>
                 </HBox>
                 <HBox fx:id="enableBottomLineCheckBoxHBox" alignment="CENTER" spacing="10.0">
-                    <CheckBox fx:id="enableBottomLineCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" selected="true" text="Draw Bottom Line" textFill="WHITE">
+                    <CheckBox fx:id="enableBottomLineCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" selected="true" text="Draw Bottom Line" textFill="WHITE">
                         <font>
                             <Font name="Montserrat Regular" size="12.0" />
                         </font>
                     </CheckBox>
+                </HBox>
+                <HBox fx:id="enablePaletteCheckBoxHBox" alignment="CENTER" spacing="10.0">
+                   <children>
+                      <CheckBox fx:id="enablePaletteCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" selected="true" text="Draw Palette" textFill="WHITE">
+                         <font>
+                            <Font name="Montserrat Regular" size="12.0" />
+                         </font>
+                      </CheckBox>
+                   </children>
                 </HBox>
                 <TitledPane fx:id="advancedSettingsTitledPane" expanded="false" styleClass="background_class" text="Advanced Settings">
                     <VBox fx:id="advancedSettingsVBox" styleClass="background_class">
@@ -136,11 +145,11 @@
                                     <Label prefHeight="17.0" prefWidth="161.0" text="# of Colors" />
                                     <Spinner fx:id="paletteColorsNumberSpinner">
                                         <valueFactory>
-                                            <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="10" max="10" min="0" />
+                                            <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="5" max="10" min="2" />
                                         </valueFactory>
                                     </Spinner>
                                 </HBox>
-                                <CheckBox fx:id="darkToLightCheckBox" mnemonicParsing="false" text="Sort Dark to Light" textFill="WHITE">
+                                <CheckBox fx:id="darkToLightCheckBox" mnemonicParsing="false" text="Sort Dark to Light" textFill="WHITE" selected="true">
                                     <font>
                                         <Font name="Montserrat Regular" size="12.0" />
                                     </font>
@@ -149,7 +158,7 @@
                                     <Label prefHeight="17.0" prefWidth="161.0" text="Palette Width" />
                                     <Spinner fx:id="paletteWidthSpinner">
                                         <valueFactory>
-                                            <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="60" max="1200" min="0" />
+                                            <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="100" max="1200" min="0" />
                                         </valueFactory>
                                     </Spinner>
                                 </HBox>
@@ -227,7 +236,7 @@
                                             </Label>
                                             <Spinner fx:id="paletteHorizontalSpacingSpinner">
                                                 <valueFactory>
-                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="60" max="500" min="0" />
+                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="100" max="500" min="0" />
                                                 </valueFactory>
                                             </Spinner>
                                         </HBox>
@@ -239,7 +248,7 @@
                                             </Label>
                                             <Spinner fx:id="paletteDistanceFromArtistSpinner">
                                                 <valueFactory>
-                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="390" max="500" min="0" />
+                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="490" max="690" min="0" />
                                                 </valueFactory>
                                             </Spinner>
                                         </HBox>
@@ -859,7 +868,7 @@
                         </TitledPane>
                     </VBox>
                 </TitledPane>
-                <TitledPane text="Edit Tracks" expanded="false">
+                <TitledPane expanded="false" text="Edit Tracks">
                     <VBox spacing="10.0" styleClass="background_class">
                         <HBox alignment="CENTER" spacing="10.0">
                             <Button fx:id="addTrackButton" mnemonicParsing="false" text="Add Track" />
