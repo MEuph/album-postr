@@ -12,8 +12,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -354,17 +352,10 @@ public class PostrEditorController {
             i.setEditable(true);
         }
 
-        regeneratePostrButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (isLoading) return;
-                isLoading = true;
-                executor.execute(() -> {
-                    Platform.runLater(() -> {
-                        generateImage(IntroController.currentlySelected);
-                    });
-                });
-            }
+        regeneratePostrButton.setOnAction(event -> {
+            if (isLoading) return;
+            isLoading = true;
+            executor.execute(() -> Platform.runLater(() -> generateImage(IntroController.currentlySelected)));
         });
 
         loadFromAlbum(IntroController.currentlySelected);
@@ -514,18 +505,13 @@ public class PostrEditorController {
     public static HashMap<Integer, Double> sortPaletteByLuminance(HashMap<Integer, Double> unsorted, boolean darkToLight) {
         // Create a list from elements of HashMap
         List<Map.Entry<Integer, Double>> list =
-                new LinkedList<Map.Entry<Integer, Double>>(unsorted.entrySet());
+                new LinkedList<>(unsorted.entrySet());
 
         // Sort the list
-        Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>() {
-            public int compare(Map.Entry<Integer, Double> o1,
-                               Map.Entry<Integer, Double> o2) {
-                return (darkToLight ? 1 : -1) * (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
+        list.sort((o1, o2) -> (darkToLight ? 1 : -1) * (o1.getValue()).compareTo(o2.getValue()));
 
         // put data from sorted list to hashmap
-        HashMap<Integer, Double> temp = new LinkedHashMap<Integer, Double>();
+        HashMap<Integer, Double> temp = new LinkedHashMap<>();
         for (Map.Entry<Integer, Double> aa : list) {
             temp.put(aa.getKey(), aa.getValue());
         }
@@ -557,7 +543,7 @@ public class PostrEditorController {
         MMCQ.CMap result = ColorThief.getColorMap(img, paletteColorsNumberSpinner.getValue());
 
         int[][] unsortedPalette = result.palette();
-        HashMap<Integer, Double> unsortedPaletteMap = new HashMap<Integer, Double>();
+        HashMap<Integer, Double> unsortedPaletteMap = new HashMap<>();
 
         // sort palette by brightness in decreasing order
         for (int i = 0; i < unsortedPalette.length; i++) {
@@ -626,6 +612,7 @@ public class PostrEditorController {
         textFieldsLoaded = true;
     }
 
+    @SuppressWarnings("all")
     private void loadTracks(PostrAlbum a) {
         ArrayList<PostrTrack> tracks = a.getTracks();
         trackList.setAll(tracks);
