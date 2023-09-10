@@ -311,6 +311,10 @@ public class PostrEditorController {
     public HBox enablePaletteCheckBoxHBox;
     @FXML
     public CheckBox enablePaletteCheckBox;
+    @FXML
+    public Spinner<Integer> paletteXOffsetSpinner;
+    @FXML
+    public Spinner<Integer> paletteYOffsetSpinner;
 
     public static final ExecutorService executor = Executors.newFixedThreadPool(1);
 
@@ -419,6 +423,8 @@ public class PostrEditorController {
         integerSpinners.add(releaseDateFontSizeSpinner);
         integerSpinners.add(tracksFontSizeSpinner);
         integerSpinners.add(artistFontSizeSpinner);
+        integerSpinners.add(paletteXOffsetSpinner);
+        integerSpinners.add(paletteYOffsetSpinner);
     }
 
     public void giveListenerToAllVariables() {
@@ -783,8 +789,8 @@ public class PostrEditorController {
             for (int i = 0; i < paletteColorsNumberSpinner.getValue(); i++) {
                 g.setColor(fxToSwingColor(palettePickers.get(i).getValue()));
                 g.fillRect(
-                        artistXPositionSpinner.getValue() + paletteDistanceFromArtistSpinner.getValue() + (paletteHorizontalSpacingSpinner.getValue() * i),
-                        albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue(),
+                        paletteXOffsetSpinner.getValue() + artistXPositionSpinner.getValue() + paletteDistanceFromArtistSpinner.getValue() + (paletteHorizontalSpacingSpinner.getValue() * i),
+                        paletteYOffsetSpinner.getValue() + albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue(),
                         paletteWidthSpinner.getValue(),
                         paletteHeightSpinner.getValue()
                 );

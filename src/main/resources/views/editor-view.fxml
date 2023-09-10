@@ -149,6 +149,22 @@
                                         </valueFactory>
                                     </Spinner>
                                 </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <Label prefHeight="17.0" prefWidth="161.0" text="X Offset" />
+                                    <Spinner fx:id="paletteXOffsetSpinner">
+                                        <valueFactory>
+                                            <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="0" max="1000" min="-1000" />
+                                        </valueFactory>
+                                    </Spinner>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <Label prefHeight="17.0" prefWidth="161.0" text="Y Offset" />
+                                    <Spinner fx:id="paletteYOffsetSpinner">
+                                        <valueFactory>
+                                            <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="0" max="1000" min="-1000" />
+                                        </valueFactory>
+                                    </Spinner>
+                                </HBox>
                                 <CheckBox fx:id="darkToLightCheckBox" mnemonicParsing="false" text="Sort Dark to Light" textFill="WHITE" selected="true">
                                     <font>
                                         <Font name="Montserrat Regular" size="12.0" />
