@@ -735,10 +735,9 @@ public class PostrEditorController {
 
         // draw album title
         // TODO: Implement margins and background
-        // TODO: Use X Y position spinners
         g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : titleFont);
         g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : titleFontColor);
-        g.drawString(postrTitleField.getText(), 105, 140);
+        g.drawString(postrTitleField.getText(), titleXPositionSpinner.getValue(), titleYPositionSpinner.getValue());
 
         // draw release date
         // TODO: Implement margins and background
