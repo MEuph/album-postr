@@ -799,13 +799,21 @@ public class PostrEditorController {
         // TODO: Make a button to align the right edge of the palette with the right edge of the album art
 
         // -- draw main artist name
-        // TODO: Implement margins and background
         g.setColor(fxToSwingColor(artistBackgroundColorPicker.getValue()));
-        g.fillRect(artistXPositionSpinner.getValue(), (albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue()),
-                (int) (albumArtWidthSpinner.getValue() * 0.6), 75);
+
+        g.fillRect(artistXPositionSpinner.getValue(), (albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue()
+                        + artistVerticalSpacingSpinner.getValue()),
+                (int) (((artistBackgroundHorizontalMarginsSpinner.getValue() * 2) + albumArtWidthSpinner.getValue()) * 0.6),
+                paletteHeightSpinner.getValue());
+
         g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : artistFont);
+
         g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : artistFontColor);
-        g.drawString(postrMainArtistField.getText(), artistXPositionSpinner.getValue() + 5, (albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue() + 50));
+
+        g.drawString(postrMainArtistField.getText(), artistXPositionSpinner.getValue()
+                + artistBackgroundHorizontalMarginsSpinner.getValue(), (albumArtYPositionSpinner.getValue()
+                + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue()
+                + artistFontSizeSpinner.getValue() + artistBackgroundVerticalMarginsSpinner.getValue()));
 
 
         // -- DRAW COLOR PALETTE --
