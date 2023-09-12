@@ -576,7 +576,7 @@ public class PostrEditorController {
 
         topLineColorPicker.setValue(javafx.scene.paint.Color.BLACK);
         bottomLineColorPicker.setValue(javafx.scene.paint.Color.BLACK);
-        
+
         colorPickersLoaded = true;
     }
 
@@ -833,13 +833,15 @@ public class PostrEditorController {
             }
         }
 
-        // -- DRAW SONGS
-        int i = 0;
-        int v = 0;
+        // -- DRAW TRACKS
+        int col = 0;
+        int row = 0;
+        int yOffs = 0;
         for (int j = 0; j < trackList.size(); j++) {
             if (j % numTracksPerColumnSpinner.getValue() == 0 && j != 0) {
-                i++;
-                v = 0;
+                col++;
+                row = 0;
+                yOffs = 0;
             }
             g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : tracksFont);
             g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : tracksFontColor1);
@@ -849,24 +851,49 @@ public class PostrEditorController {
             if (highlightExplicitTracksCheckBox.isSelected() && !useGlobalFontColorCheckBox.isSelected() && trackList.get(j).getName().contains("(E)")) {
                 g.setColor(fxToSwingColor(explicitTracksHighlightColorPicker.getValue()));
             }
-            // TODO: Implement newline threshold
-            g.drawString(trackList.get(j).getTrackNumber() +
-                            ". " + trackList.get(j).getName(),
-                    artistXPositionSpinner.getValue() + (i * tracksHorizontalSpacingSpinner.getValue()),
-                    ((albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue()) + 75 + 35 + (v * tracksVerticalSpacingSpinner.getValue())));
-            v++;
+            int threshold = tracksNewlineThresholdSpinner.getValue();
+
+            // TODO: Make this formatting custom
+            String track = trackList.get(j).getTrackNumber() + ". " + trackList.get(j).getName();
+
+            if (threshold == 0 || track.length() <= threshold) {
+                g.drawString(track,
+                        artistXPositionSpinner.getValue() + (col * tracksHorizontalSpacingSpinner.getValue()),
+                        ((albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue())
+                                + 75 + 35 + (row * tracksVerticalSpacingSpinner.getValue()) + yOffs));
+                row++;
+            } else {
+                StringBuilder sb = new StringBuilder(track);
+                int i = 0;
+                while (i + tracksNewlineThresholdSpinner.getValue() < sb.length()
+                        && (i = sb.lastIndexOf(" ", i + 20)) != -1) {
+                    sb.replace(i, i + 1, "\n");
+                }
+                String[] split = sb.toString().split("\n");
+                for (i = 1; i < split.length; i++) {
+                    split[i] = "   " + split[i];
+                }
+                System.out.println(Arrays.toString(split));
+                for (String s : split) {
+                    g.drawString(s,
+                            artistXPositionSpinner.getValue() + (col * tracksHorizontalSpacingSpinner.getValue()),
+                            ((albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue() + artistVerticalSpacingSpinner.getValue())
+                                    + 75 + 35 + (row * tracksVerticalSpacingSpinner.getValue()) + yOffs));
+                    yOffs += tracksFontSizeSpinner.getValue();
+                }
+            }
         }
 
         // -- DRAW LINES --
         if (enableTopLineCheckBox.isSelected()) {
             g.setColor(fxToSwingColor(topLineColorPicker.getValue()));
-            g.setStroke(new BasicStroke((float)topLineThicknessSpinner.getValue()));
+            g.setStroke(new BasicStroke((float) topLineThicknessSpinner.getValue()));
             g.drawLine(topLineX1PositionSpinner.getValue(), topLineY1PositionSpinner.getValue(), topLineX2PositionSpinner.getValue(), topLineY2PositionSpinner.getValue());
         }
 
         if (enableBottomLineCheckBox.isSelected()) {
             g.setColor(fxToSwingColor(bottomLineColorPicker.getValue()));
-            g.setStroke(new BasicStroke((float)bottomLineThicknessSpinner.getValue()));
+            g.setStroke(new BasicStroke((float) bottomLineThicknessSpinner.getValue()));
             g.drawLine(bottomLineX1PositionSpinner.getValue(), bottomLineY1PositionSpinner.getValue(), bottomLineX2PositionSpinner.getValue(), bottomLineY2PositionSpinner.getValue());
         }
 
