@@ -463,7 +463,7 @@
                                             </Label>
                                             <Spinner fx:id="tracksFontSizeSpinner">
                                                 <valueFactory>
-                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="40" max="150" min="0" />
+                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="25" max="150" min="0" />
                                                 </valueFactory>
                                             </Spinner>
                                         </HBox>
@@ -614,7 +614,7 @@
                                             </Label>
                                             <Spinner fx:id="releaseDateFontSizeSpinner">
                                                 <valueFactory>
-                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="40" max="150" min="0" />
+                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="50" max="150" min="0" />
                                                 </valueFactory>
                                             </Spinner>
                                         </HBox>
@@ -688,7 +688,7 @@
                                             </Label>
                                             <Spinner fx:id="titleFontSizeSpinner">
                                                 <valueFactory>
-                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="40" max="150" min="0" />
+                                                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="65" max="150" min="0" />
                                                 </valueFactory>
                                             </Spinner>
                                         </HBox>
