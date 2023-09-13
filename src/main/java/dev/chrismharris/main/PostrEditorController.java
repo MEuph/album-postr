@@ -83,7 +83,7 @@ public class PostrEditorController {
     @FXML
     public VBox albumArtSettingsVBox;
     @FXML
-    public CheckBox albumArtSquareCheckBox;
+    public CheckBox preserveRatioCheckBox;
     @FXML
     public Spinner<Integer> albumArtWidthSpinner;
     @FXML
@@ -475,7 +475,7 @@ public class PostrEditorController {
         savePostrButton.setOnAction(event -> System.out.println("[BUTTON LISTENER]: Save Postr Button Pressed"));
         fullSizePreviewButton.setOnAction(event -> System.out.println("[BUTTON LISTENER]: Full Size Preview Button Pressed"));
         postrDateFormatField.textProperty().addListener(listener);
-        albumArtSquareCheckBox.selectedProperty().addListener(listener);
+        preserveRatioCheckBox.selectedProperty().addListener(listener);
         albumArtWidthSpinner.valueProperty().addListener(listener);
         albumArtHeightSpinner.valueProperty().addListener(listener);
         albumArtUrlTextField.textProperty().addListener(listener);
@@ -727,7 +727,7 @@ public class PostrEditorController {
         previewCanvas.getGraphicsContext2D().clearRect(0, 0, previewCanvas.getWidth(), previewCanvas.getHeight());
         BufferedImage img = new BufferedImage(1200, 1600, BufferedImage.TYPE_INT_RGB);
         // TODO: Change "Album Art is Square" to "Preserve Ratio"
-        Image art = new Image(albumArtUrlTextField.getText(), albumArtWidthSpinner.getValue(), albumArtHeightSpinner.getValue(), albumArtSquareCheckBox.isSelected(), true);
+        Image art = new Image(albumArtUrlTextField.getText(), albumArtWidthSpinner.getValue(), albumArtHeightSpinner.getValue(), preserveRatioCheckBox.isSelected(), true);
         BufferedImage albumArt = SwingFXUtils.fromFXImage(art, null);
         Graphics2D g = (Graphics2D) img.getGraphics();
 
