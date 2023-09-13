@@ -24,6 +24,8 @@ import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -577,6 +579,8 @@ public class PostrEditorController {
         topLineColorPicker.setValue(javafx.scene.paint.Color.BLACK);
         bottomLineColorPicker.setValue(javafx.scene.paint.Color.BLACK);
 
+        releaseDateFontBackgroundColor.setValue(new javafx.scene.paint.Color(0, 0, 0, 0));
+
         colorPickersLoaded = true;
     }
 
@@ -784,16 +788,52 @@ public class PostrEditorController {
 
         // draw release date
         // TODO: Implement margins and background
-        g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont);
-        g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : releaseDateFontColor);
-        String formattedReleaseDate;
         try {
-            formattedReleaseDate = postrReleaseDateField.getValue().format(
+            AffineTransform at = new AffineTransform();
+            FontRenderContext frc = new FontRenderContext(at, true, true);
+            String formattedReleaseDate = postrReleaseDateField.getValue().format(
                     DateTimeFormatter.ofPattern(postrDateFormatField.getText()));
-            g.drawString(formattedReleaseDate, releaseDateXPositionSpinner.getValue(), releaseDateYPositionSpinner.getValue());
+
+            g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont);
+            if (releaseDateFontBackgroundColor.getValue().getOpacity() != 0) {
+                g.setColor(fxToSwingColor(releaseDateFontBackgroundColor.getValue()));
+
+                int rdWidth = (int) ((useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont).getStringBounds(formattedReleaseDate, frc).getWidth()) + releaseDateBackgroundHorizontalMarginsSpinner.getValue();
+                int rdHeight = (int) ((useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont).getStringBounds(formattedReleaseDate, frc).getHeight()) + releaseDateBackgroundVerticalMarginsSpinner.getValue();
+                g.fillRect(
+                        releaseDateXPositionSpinner.getValue(),
+                        releaseDateYPositionSpinner.getValue() - rdHeight,
+                        rdWidth,
+                        rdHeight
+                );
+            }
+
+            g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : releaseDateFontColor);
+            g.drawString(formattedReleaseDate,
+                    releaseDateXPositionSpinner.getValue() + (releaseDateBackgroundHorizontalMarginsSpinner.getValue() / 2),
+                    releaseDateYPositionSpinner.getValue() - (releaseDateBackgroundVerticalMarginsSpinner.getValue() / 2));
         } catch (Exception e) {
+            AffineTransform at = new AffineTransform();
+            FontRenderContext frc = new FontRenderContext(at, true, true);
+
+            g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont);
+            if (releaseDateFontBackgroundColor.getValue().getOpacity() != 0) {
+                g.setColor(fxToSwingColor(releaseDateFontBackgroundColor.getValue()));
+
+                int rdWidth = (int) ((useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont).getStringBounds("!ERROR!", frc).getWidth());
+                int rdHeight = (int) ((useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont).getStringBounds("!ERROR!", frc).getHeight());
+                g.fillRect(
+                        releaseDateXPositionSpinner.getValue(),
+                        releaseDateYPositionSpinner.getValue(),
+                        rdWidth + releaseDateBackgroundHorizontalMarginsSpinner.getValue(),
+                        rdHeight + releaseDateBackgroundVerticalMarginsSpinner.getValue());
+            }
+
+            g.setColor(Color.RED);
+            g.drawString("!ERROR!",
+                    releaseDateXPositionSpinner.getValue() + (releaseDateBackgroundHorizontalMarginsSpinner.getValue() / 2),
+                    releaseDateYPositionSpinner.getValue() + (releaseDateBackgroundVerticalMarginsSpinner.getValue() / 2));
             addError("Release Date Format is Incorrect. Try yyyy-MM-dd");
-            g.drawString("!ERROR!", releaseDateXPositionSpinner.getValue(), releaseDateYPositionSpinner.getValue());
         }
 
         // TODO: Make a button to align the right edge of the palette with the right edge of the album art
