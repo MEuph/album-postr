@@ -726,7 +726,6 @@ public class PostrEditorController {
 
         previewCanvas.getGraphicsContext2D().clearRect(0, 0, previewCanvas.getWidth(), previewCanvas.getHeight());
         BufferedImage img = new BufferedImage(1200, 1600, BufferedImage.TYPE_INT_RGB);
-        // TODO: Change "Album Art is Square" to "Preserve Ratio"
         Image art = new Image(albumArtUrlTextField.getText(), albumArtWidthSpinner.getValue(), albumArtHeightSpinner.getValue(), preserveRatioCheckBox.isSelected(), true);
         BufferedImage albumArt = SwingFXUtils.fromFXImage(art, null);
         Graphics2D g = (Graphics2D) img.getGraphics();
