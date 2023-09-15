@@ -165,7 +165,7 @@ public class PostrEditorController {
     @FXML
     public VBox fontSettingsVBox;
     @FXML
-    public TextField globalFontFamilyTextField;
+    public ComboBox<String> globalFontFamilyComboBox;
     @FXML
     public CheckBox useGlobalFontFamilyCheckBox;
     @FXML
@@ -177,7 +177,7 @@ public class PostrEditorController {
     @FXML
     public VBox tracksColorAndFontSettingsVBox;
     @FXML
-    public TextField tracksFontFamilyTextField;
+    public ComboBox<String> tracksFontFamilyComboBox;
     @FXML
     public CheckBox tracksAlternateColorsCheckBox;
     @FXML
@@ -217,7 +217,7 @@ public class PostrEditorController {
     @FXML
     public VBox releaseDateColorAndFontSettingsVBox;
     @FXML
-    public TextField releaseDateFontFamilyTextField;
+    public ComboBox<String> releaseDateFontFamilyComboBox;
     @FXML
     public ColorPicker releaseDateFontColorPicker;
     @FXML
@@ -231,7 +231,7 @@ public class PostrEditorController {
     @FXML
     public VBox titleColorAndFontSettingsVBox;
     @FXML
-    public TextField titleFontFamilyTextField;
+    public ComboBox<String> titleFontFamilyComboBox;
     @FXML
     public ColorPicker titleFontColorPicker;
     @FXML
@@ -266,7 +266,7 @@ public class PostrEditorController {
     @FXML
     public VBox artistColorAndFontSettingsVBox;
     @FXML
-    public TextField artistFontFamilyTextField;
+    public ComboBox<String> artistFontFamilyComboBox;
     @FXML
     public ColorPicker artistFontColorPicker;
     @FXML
@@ -353,7 +353,7 @@ public class PostrEditorController {
     public boolean isLoading = false;
     public String errorMessage = "";
 
-    public ArrayList<String> availableFonts;
+    public ObservableList<String> availableFonts;
 
     public ArrayList<Spinner<Integer>> integerSpinners = new ArrayList<>();
 
@@ -366,10 +366,16 @@ public class PostrEditorController {
     @FXML
     public void initialize() {
         String[] availableFontFamilyNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        availableFonts = new ArrayList<>();
-        availableFonts.addAll(Arrays.asList(availableFontFamilyNames));
 
-        giveListenerToAllVariables();
+        availableFonts = FXCollections.observableArrayList(
+                availableFontFamilyNames
+        );
+
+        globalFontFamilyComboBox.setItems(availableFonts);
+        titleFontFamilyComboBox.setItems(availableFonts);
+        tracksFontFamilyComboBox.setItems(availableFonts);
+        releaseDateFontFamilyComboBox.setItems(availableFonts);
+        artistFontFamilyComboBox.setItems(availableFonts);
 
         loadSpinnersList();
 
@@ -461,77 +467,6 @@ public class PostrEditorController {
         integerSpinners.add(bottomLineX2PositionSpinner);
         integerSpinners.add(bottomLineY2PositionSpinner);
         integerSpinners.add(bottomLineThicknessSpinner);
-    }
-
-    public void giveListenerToAllVariables() {
-        postrBackgroundColor.valueProperty().addListener(listener);
-        postrTitleField.textProperty().addListener(listener);
-        postrReleaseDateField.valueProperty().addListener(listener);
-        postrMainArtistField.textProperty().addListener(listener);
-        addTrackButton.setOnAction(event -> System.out.println("[BUTTON LISTENER]: Add Song Button Pressed"));
-        deleteTrackButton.setOnAction(event -> System.out.println("[BUTTON LISTENER]: Delete Song Button Pressed"));
-        trackTableView.itemsProperty().addListener(listener);
-        addSigFromFileButton.setOnAction(event -> System.out.println("[BUTTON LISTENER]: Add Signature From File Button Pressed"));
-        savePostrButton.setOnAction(event -> System.out.println("[BUTTON LISTENER]: Save Postr Button Pressed"));
-        fullSizePreviewButton.setOnAction(event -> System.out.println("[BUTTON LISTENER]: Full Size Preview Button Pressed"));
-        postrDateFormatField.textProperty().addListener(listener);
-        preserveRatioCheckBox.selectedProperty().addListener(listener);
-        albumArtWidthSpinner.valueProperty().addListener(listener);
-        albumArtHeightSpinner.valueProperty().addListener(listener);
-        albumArtUrlTextField.textProperty().addListener(listener);
-        paletteColorsNumberSpinner.valueProperty().addListener(listener);
-        paletteWidthSpinner.valueProperty().addListener(listener);
-        paletteHeightSpinner.valueProperty().addListener(listener);
-        numTracksPerColumnSpinner.valueProperty().addListener(listener);
-        tracksVerticalSpacingSpinner.valueProperty().addListener(listener);
-        tracksHorizontalSpacingSpinner.valueProperty().addListener(listener);
-        tracksNewlineThresholdSpinner.valueProperty().addListener(listener);
-        paletteHorizontalSpacingSpinner.valueProperty().addListener(listener);
-        paletteDistanceFromArtistSpinner.valueProperty().addListener(listener);
-        releaseDateXPositionSpinner.valueProperty().addListener(listener);
-        releaseDateYPositionSpinner.valueProperty().addListener(listener);
-        titleXPositionSpinner.valueProperty().addListener(listener);
-        titleYPositionSpinner.valueProperty().addListener(listener);
-        artistXPositionSpinner.valueProperty().addListener(listener);
-        artistVerticalSpacingSpinner.valueProperty().addListener(listener);
-        albumArtXPositionSpinner.valueProperty().addListener(listener);
-        albumArtYPositionSpinner.valueProperty().addListener(listener);
-        globalFontFamilyTextField.textProperty().addListener(listener);
-        useGlobalFontFamilyCheckBox.selectedProperty().addListener(listener);
-        globalFontColorPicker.valueProperty().addListener(listener);
-        useGlobalFontColorCheckBox.selectedProperty().addListener(listener);
-        tracksFontFamilyTextField.textProperty().addListener(listener);
-        tracksAlternateColorsCheckBox.selectedProperty().addListener(listener);
-        tracksColor1Picker.valueProperty().addListener(listener);
-        tracksColor2Picker.valueProperty().addListener(listener);
-        highlightExplicitTracksCheckBox.selectedProperty().addListener(listener);
-        explicitTracksHighlightColorPicker.valueProperty().addListener(listener);
-        paletteColor1ColorPicker.valueProperty().addListener(listener);
-        paletteColor2ColorPicker.valueProperty().addListener(listener);
-        paletteColor3ColorPicker.valueProperty().addListener(listener);
-        paletteColor4ColorPicker.valueProperty().addListener(listener);
-        paletteColor5ColorPicker.valueProperty().addListener(listener);
-        paletteColor6ColorPicker.valueProperty().addListener(listener);
-        paletteColor7ColorPicker.valueProperty().addListener(listener);
-        paletteColor8ColorPicker.valueProperty().addListener(listener);
-        paletteColor9ColorPicker.valueProperty().addListener(listener);
-        paletteColor10ColorPicker.valueProperty().addListener(listener);
-        releaseDateFontFamilyTextField.textProperty().addListener(listener);
-        releaseDateFontColorPicker.valueProperty().addListener(listener);
-        releaseDateFontBackgroundColor.valueProperty().addListener(listener);
-        releaseDateBackgroundHorizontalMarginsSpinner.valueProperty().addListener(listener);
-        releaseDateBackgroundVerticalMarginsSpinner.valueProperty().addListener(listener);
-        titleFontFamilyTextField.textProperty().addListener(listener);
-        titleFontColorPicker.valueProperty().addListener(listener);
-        titleBackgroundColorPicker.valueProperty().addListener(listener);
-        titleBackgroundHorizontalMarginsSpinner.valueProperty().addListener(listener);
-        titleBackgroundVerticalMarginsSpinner.valueProperty().addListener(listener);
-        signatureXPositionSpinner.valueProperty().addListener(listener);
-        signatureYPositionSpinner.valueProperty().addListener(listener);
-        signatureWidthSpinner.valueProperty().addListener(listener);
-        signatureHeightSpinner.valueProperty().addListener(listener);
-        signaturePreserveRatioCheckBox.selectedProperty().addListener(listener);
-        postrArtFillColor.valueProperty().addListener(listener);
     }
 
     public void loadFromAlbum(PostrAlbum a) {
@@ -651,10 +586,10 @@ public class PostrEditorController {
         // image url
         albumArtUrlTextField.setText(a.getAlbumArtUrl());
         // fonts
-        titleFontFamilyTextField.setText("Montserrat");
-        tracksFontFamilyTextField.setText("Montserrat");
-        releaseDateFontFamilyTextField.setText("Montserrat");
-        artistFontFamilyTextField.setText("Montserrat");
+        titleFontFamilyComboBox.setValue("Montserrat");
+        tracksFontFamilyComboBox.setValue("Montserrat");
+        releaseDateFontFamilyComboBox.setValue("Montserrat");
+        artistFontFamilyComboBox.setValue("Montserrat");
 
         textFieldsLoaded = true;
     }
@@ -750,21 +685,21 @@ public class PostrEditorController {
 
         if (useGlobalFontFamilyCheckBox.isSelected()) {
             if (useGlobalFontSizeCheckBox.isSelected()) {
-                globalFont = validateFont(globalFontFamilyTextField,
+                globalFont = validateFont(globalFontFamilyComboBox,
                         useGlobalFontWeightCheckBox.isSelected() ? parseWeight(globalFontWeightComboBox.getValue()) :
                                 Font.PLAIN, globalFontSizeSpinner.getValue());
             } else {
-                globalFont = validateFont(globalFontFamilyTextField,
+                globalFont = validateFont(globalFontFamilyComboBox,
                         useGlobalFontWeightCheckBox.isSelected() ? parseWeight(globalFontWeightComboBox.getValue()) :
                                 Font.PLAIN, 45);
             }
 
             g.setFont(globalFont);
         } else {
-            titleFont = validateFont(titleFontFamilyTextField, parseWeight(titleFontWeightComboBox.getValue()), titleFontSizeSpinner.getValue());
-            releaseDateFont = validateFont(releaseDateFontFamilyTextField, parseWeight(releaseDateFontWeightComboBox.getValue()), releaseDateFontSizeSpinner.getValue());
-            tracksFont = validateFont(tracksFontFamilyTextField, parseWeight(tracksFontWeightComboBox.getValue()), tracksFontSizeSpinner.getValue());
-            artistFont = validateFont(artistFontFamilyTextField, parseWeight(artistFontWeightComboBox.getValue()), artistFontSizeSpinner.getValue());
+            titleFont = validateFont(titleFontFamilyComboBox, parseWeight(titleFontWeightComboBox.getValue()), titleFontSizeSpinner.getValue());
+            releaseDateFont = validateFont(releaseDateFontFamilyComboBox, parseWeight(releaseDateFontWeightComboBox.getValue()), releaseDateFontSizeSpinner.getValue());
+            tracksFont = validateFont(tracksFontFamilyComboBox, parseWeight(tracksFontWeightComboBox.getValue()), tracksFontSizeSpinner.getValue());
+            artistFont = validateFont(artistFontFamilyComboBox, parseWeight(artistFontWeightComboBox.getValue()), artistFontSizeSpinner.getValue());
         }
 
         if (useGlobalFontColorCheckBox.isSelected()) {
@@ -956,12 +891,12 @@ public class PostrEditorController {
         isLoading = false;
     }
 
-    private Font validateFont(TextField fontFamilyField, int weight, int size) {
-        if (availableFonts.contains(fontFamilyField.getText())) {
-            return new Font(fontFamilyField.getText(), weight, size);
+    private Font validateFont(ComboBox<String> fontFamilyComboBox, int weight, int size) {
+        if (availableFonts.contains(fontFamilyComboBox.getValue())) {
+            return new Font(fontFamilyComboBox.getValue(), weight, size);
         } else {
-            addError("Font '" + fontFamilyField.getText() + "' not available on this system");
-            return new Font("Times New Roman", weight, size);
+            addError("Font '" + fontFamilyComboBox.getValue() + "' not available on this system");
+            return new Font("Arial", weight, size);
         }
     }
 

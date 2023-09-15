@@ -389,11 +389,14 @@
                                 <TitledPane fx:id="fontSettingsTitledPane" expanded="false" styleClass="background_class" text="Font">
                                     <VBox fx:id="fontSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
                                         <HBox>
-                                            <TextField fx:id="globalFontFamilyTextField" prefHeight="23.0" prefWidth="166.0" promptText="Global Font Family">
-                                                <font>
-                                                    <Font name="Montserrat Regular" size="12.0" />
-                                                </font>
-                                            </TextField>
+                                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                                <Label text="Font">
+                                                    <font>
+                                                        <Font name="Montserrat Regular" size="12.0" />
+                                                    </font>
+                                                </Label>
+                                                <ComboBox fx:id="globalFontFamilyComboBox" prefWidth="100.0" />
+                                            </HBox>
                                             <CheckBox fx:id="useGlobalFontFamilyCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0" text="Use Globally" textFill="WHITE">
                                                 <font>
                                                     <Font name="Montserrat Regular" size="12.0" />
@@ -439,13 +442,13 @@
                                 </TitledPane>
                                 <TitledPane fx:id="tracksColorAndFontSettingsTitledPane" expanded="false" styleClass="background_class" text="Tracks">
                                     <VBox fx:id="tracksColorAndFontSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                            <Label prefHeight="17.0" prefWidth="91.0" text="Font Family">
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                                            <Label text="Font">
                                                 <font>
                                                     <Font name="Montserrat Regular" size="12.0" />
                                                 </font>
                                             </Label>
-                                            <TextField fx:id="tracksFontFamilyTextField" promptText="Enter Font Family" />
+                                            <ComboBox fx:id="tracksFontFamilyComboBox" prefWidth="150.0" />
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                             <Label prefHeight="17.0" prefWidth="182.0" text="Alternate Colors">
@@ -598,13 +601,13 @@
                                 </TitledPane>
                                 <TitledPane fx:id="releaseDateColorAndFontSettingsTitledPane" expanded="false" styleClass="background_class" text="Release Date">
                                     <VBox fx:id="releaseDateColorAndFontSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                            <Label prefHeight="17.0" prefWidth="91.0" text="Font Family">
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                                            <Label text="Font">
                                                 <font>
                                                     <Font name="Montserrat Regular" size="12.0" />
                                                 </font>
                                             </Label>
-                                            <TextField fx:id="releaseDateFontFamilyTextField" promptText="Enter Font Family" />
+                                            <ComboBox fx:id="releaseDateFontFamilyComboBox" prefWidth="150.0" />
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                             <Label prefHeight="17.0" prefWidth="182.0" text="Font Size">
@@ -672,13 +675,13 @@
                                 </TitledPane>
                                 <TitledPane fx:id="titleColorAndFontSettingsTitledPane" expanded="false" styleClass="background_class" text="Title">
                                     <VBox fx:id="titleColorAndFontSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                            <Label prefHeight="17.0" prefWidth="91.0" text="Font Family">
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                                            <Label text="Font">
                                                 <font>
                                                     <Font name="Montserrat Regular" size="12.0" />
                                                 </font>
                                             </Label>
-                                            <TextField fx:id="titleFontFamilyTextField" promptText="Enter Font Family" />
+                                            <ComboBox fx:id="titleFontFamilyComboBox" prefWidth="150.0" />
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                             <Label prefHeight="17.0" prefWidth="182.0" text="Font Size">
@@ -747,13 +750,13 @@
                                 </TitledPane>
                                 <TitledPane fx:id="artistColorAndFontSettingsTitledPane" expanded="false" styleClass="background_class" text="Artist">
                                     <VBox fx:id="artistColorAndFontSettingsVBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="background_class">
-                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                            <Label prefHeight="17.0" prefWidth="91.0" text="Font Family">
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                                            <Label text="Font">
                                                 <font>
                                                     <Font name="Montserrat Regular" size="12.0" />
                                                 </font>
                                             </Label>
-                                            <TextField fx:id="artistFontFamilyTextField" promptText="Enter Font Family" />
+                                            <ComboBox fx:id="artistFontFamilyComboBox" prefWidth="150.0" />
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                             <Label prefHeight="17.0" prefWidth="182.0" text="Font Size">
