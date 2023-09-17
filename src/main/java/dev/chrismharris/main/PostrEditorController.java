@@ -8,7 +8,6 @@ import dev.chrismharris.table.IntegerTableCell;
 import dev.chrismharris.table.StringTableCell;
 import dev.chrismharris.table.TimeTableCell;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -357,12 +356,6 @@ public class PostrEditorController {
 
     public ArrayList<Spinner<Integer>> integerSpinners = new ArrayList<>();
 
-    ChangeListener<Object> listener = ((observable, oldValue, newValue) -> {
-        if (AlbumPostrApplication.DEBUG)
-            System.out.println("[BASIC LISTENER]: " + observable.toString() + " changed from "
-                    + (oldValue == null ? "null" : oldValue.toString()) + " to " + newValue.toString() + "!");
-    });
-
     @FXML
     public void initialize() {
         String[] availableFontFamilyNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
@@ -381,7 +374,7 @@ public class PostrEditorController {
 
         darkToLightCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             loadPaletteColorPickers(IntroController.currentlySelected);
-            generateImage(IntroController.currentlySelected);
+            generateImage();
         });
 
         for (Spinner<Integer> i : integerSpinners) {
@@ -391,7 +384,7 @@ public class PostrEditorController {
         regeneratePostrButton.setOnAction(event -> {
             if (isLoading) return;
             isLoading = true;
-            executor.execute(() -> Platform.runLater(() -> generateImage(IntroController.currentlySelected)));
+            executor.execute(() -> Platform.runLater(this::generateImage));
         });
 
         loadFromAlbum(IntroController.currentlySelected);
@@ -476,7 +469,7 @@ public class PostrEditorController {
         loadComboBoxes();
 
         isLoading = true;
-        executor.execute(() -> Platform.runLater(() -> generateImage(a)));
+        executor.execute(() -> Platform.runLater(this::generateImage));
     }
 
     public static HashMap<Integer, Double> sortPaletteByLuminance(HashMap<Integer, Double> unsorted, boolean darkToLight) {
@@ -515,6 +508,7 @@ public class PostrEditorController {
         bottomLineColorPicker.setValue(javafx.scene.paint.Color.BLACK);
 
         releaseDateFontBackgroundColor.setValue(new javafx.scene.paint.Color(0, 0, 0, 0));
+        titleBackgroundColorPicker.setValue(new javafx.scene.paint.Color(0, 0, 0, 0));
 
         colorPickersLoaded = true;
     }
@@ -654,11 +648,7 @@ public class PostrEditorController {
         tracksLoaded = true;
     }
 
-    private void generateImage(PostrAlbum a) {
-        // TODO: Cause of Bug
-        // changes made to palette are overwritten
-        loadPaletteColorPickers(a);
-
+    private void generateImage() {
         previewCanvas.getGraphicsContext2D().clearRect(0, 0, previewCanvas.getWidth(), previewCanvas.getHeight());
         BufferedImage img = new BufferedImage(1200, 1600, BufferedImage.TYPE_INT_RGB);
         Image art = new Image(albumArtUrlTextField.getText(), albumArtWidthSpinner.getValue(), albumArtHeightSpinner.getValue(), preserveRatioCheckBox.isSelected(), true);
@@ -712,17 +702,32 @@ public class PostrEditorController {
             artistFontColor = fxToSwingColor(artistFontColorPicker.getValue());
         }
 
-        // -- DRAW TEXT FIELDS --
+        // -- DRAW ALBUM TITLE --
+        if (titleBackgroundColorPicker.getValue().getOpacity() != 0) {
+            AffineTransform at = new AffineTransform();
+            FontRenderContext frc = new FontRenderContext(at, true, true);
 
-        // draw album title
-        // TODO: Implement margins and background
+            g.setColor(fxToSwingColor(titleBackgroundColorPicker.getValue()));
+            Font toUse = useGlobalFontFamilyCheckBox.isSelected() ? globalFont : titleFont;
+            if (toUse == null) toUse = new Font("Arial", Font.PLAIN, 20);
+
+            int titleBackgroundWidth = (int) (toUse.getStringBounds(postrTitleField.getText(), frc).getWidth()) + titleBackgroundHorizontalMarginsSpinner.getValue();
+            int titleBackgroundHeight = (int) (toUse.getStringBounds(postrTitleField.getText(), frc).getHeight()) + titleBackgroundVerticalMarginsSpinner.getValue();
+
+            g.fillRect(
+                    titleXPositionSpinner.getValue(),
+                    titleYPositionSpinner.getValue() - titleBackgroundHeight,
+                    titleBackgroundWidth,
+                    titleBackgroundHeight
+            );
+        }
+
         g.setFont(useGlobalFontFamilyCheckBox.isSelected() ? globalFont : titleFont);
         g.setColor(useGlobalFontColorCheckBox.isSelected() ? globalFontColor : titleFontColor);
         g.drawString(postrTitleField.getText(), titleXPositionSpinner.getValue(), titleYPositionSpinner.getValue());
 
-        // draw release date
-        // TODO: Implement margins and background
-        try {
+        // -- DRAW RELEASE DATE --
+        try { // if the formatting is successful
             AffineTransform at = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(at, true, true);
             String formattedReleaseDate = postrReleaseDateField.getValue().format(
@@ -732,13 +737,17 @@ public class PostrEditorController {
             if (releaseDateFontBackgroundColor.getValue().getOpacity() != 0) {
                 g.setColor(fxToSwingColor(releaseDateFontBackgroundColor.getValue()));
 
-                int rdWidth = (int) ((useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont).getStringBounds(formattedReleaseDate, frc).getWidth()) + releaseDateBackgroundHorizontalMarginsSpinner.getValue();
-                int rdHeight = (int) ((useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont).getStringBounds(formattedReleaseDate, frc).getHeight()) + releaseDateBackgroundVerticalMarginsSpinner.getValue();
+                Font toUse = useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont;
+                if (toUse == null) toUse = new Font("Arial", Font.PLAIN, 20);
+
+                int releaseDateBackgroundWidth = (int) (toUse.getStringBounds(formattedReleaseDate, frc).getWidth()) + releaseDateBackgroundHorizontalMarginsSpinner.getValue();
+                int releaseDateBackgroundHeight = (int) (toUse.getStringBounds(formattedReleaseDate, frc).getHeight()) + releaseDateBackgroundVerticalMarginsSpinner.getValue();
+
                 g.fillRect(
                         releaseDateXPositionSpinner.getValue(),
-                        releaseDateYPositionSpinner.getValue() - rdHeight,
-                        rdWidth,
-                        rdHeight
+                        releaseDateYPositionSpinner.getValue() - releaseDateBackgroundHeight,
+                        releaseDateBackgroundWidth,
+                        releaseDateBackgroundHeight
                 );
             }
 
@@ -746,7 +755,7 @@ public class PostrEditorController {
             g.drawString(formattedReleaseDate,
                     releaseDateXPositionSpinner.getValue() + (releaseDateBackgroundHorizontalMarginsSpinner.getValue() / 2),
                     releaseDateYPositionSpinner.getValue() - (releaseDateBackgroundVerticalMarginsSpinner.getValue() / 2));
-        } catch (Exception e) {
+        } catch (Exception e) { // if formatting is unsuccessful
             AffineTransform at = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(at, true, true);
 
@@ -754,8 +763,11 @@ public class PostrEditorController {
             if (releaseDateFontBackgroundColor.getValue().getOpacity() != 0) {
                 g.setColor(fxToSwingColor(releaseDateFontBackgroundColor.getValue()));
 
-                int rdWidth = (int) ((useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont).getStringBounds("!ERROR!", frc).getWidth());
-                int rdHeight = (int) ((useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont).getStringBounds("!ERROR!", frc).getHeight());
+                Font toUse = useGlobalFontFamilyCheckBox.isSelected() ? globalFont : releaseDateFont;
+                if (toUse == null) toUse = new Font("Arial", Font.PLAIN, 20);
+
+                int rdWidth = (int) (toUse.getStringBounds("!ERROR!", frc).getWidth());
+                int rdHeight = (int) (toUse.getStringBounds("!ERROR!", frc).getHeight());
                 g.fillRect(
                         releaseDateXPositionSpinner.getValue(),
                         releaseDateYPositionSpinner.getValue(),
@@ -772,7 +784,7 @@ public class PostrEditorController {
 
         // TODO: Make a button to align the right edge of the palette with the right edge of the album art
 
-        // -- draw main artist name
+        // -- DRAW MAIN ARTIST NAME
         g.setColor(fxToSwingColor(artistBackgroundColorPicker.getValue()));
 
         g.fillRect(artistXPositionSpinner.getValue(), (albumArtYPositionSpinner.getValue() + albumArtHeightSpinner.getValue()
