@@ -20,12 +20,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,7 +37,6 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-// TODO: Add signature
 // TODO: Add track editing
 // TODO: Implement full size preview button
 // TODO: Implement save postr button
@@ -54,7 +57,7 @@ public class PostrEditorController {
     @FXML
     public TableView<PostrTrack> trackTableView;
     @FXML
-    public Button addSigFromFileButton;
+    public Button loadSignatureButton;
     @FXML
     public Canvas previewCanvas;
     @FXML
@@ -350,11 +353,14 @@ public class PostrEditorController {
     public boolean tracksLoaded = false;
     public boolean comboBoxesLoaded = false;
     public boolean isLoading = false;
+    public boolean signatureLoaded = false;
     public String errorMessage = "";
 
     public ObservableList<String> availableFonts;
 
     public ArrayList<Spinner<Integer>> integerSpinners = new ArrayList<>();
+
+    public File signatureFile;
 
     @FXML
     public void initialize() {
@@ -385,6 +391,33 @@ public class PostrEditorController {
             if (isLoading) return;
             isLoading = true;
             executor.execute(() -> Platform.runLater(this::generateImage));
+        });
+
+        loadSignatureButton.setOnAction(event -> {
+            final FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Choose Signature Image");
+            fileChooser.setInitialDirectory(
+                    new File(System.getProperty("user.home"))
+            );
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("All Images", "*.*"),
+                    new FileChooser.ExtensionFilter("PNG (Recommended)", "*.png"),
+                    new FileChooser.ExtensionFilter("JPG", "*.jpg")
+            );
+
+            signatureFile = fileChooser.showOpenDialog(loadSignatureButton.getScene().getWindow());
+            if (signatureFile != null) {
+                try {
+                    BufferedImage signature = ImageIO.read(signatureFile);
+                    signatureWidthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1200, signature.getWidth()));
+                    signatureHeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1600, signature.getHeight()));
+                    signatureLoaded = true;
+                    generateImage();
+                } catch (IOException e) {
+                    addError("Could not load signature file + \"" + signatureFile.getPath() + "\"");
+                    signatureLoaded = false;
+                }
+            }
         });
 
         loadFromAlbum(IntroController.currentlySelected);
@@ -889,6 +922,26 @@ public class PostrEditorController {
             g.setColor(fxToSwingColor(bottomLineColorPicker.getValue()));
             g.setStroke(new BasicStroke((float) bottomLineThicknessSpinner.getValue()));
             g.drawLine(bottomLineX1PositionSpinner.getValue(), bottomLineY1PositionSpinner.getValue(), bottomLineX2PositionSpinner.getValue(), bottomLineY2PositionSpinner.getValue());
+        }
+
+        // -- DRAW SIGNATURE --
+        if (signatureLoaded) {
+            try {
+                BufferedImage signature = ImageIO.read(signatureFile);
+                g.drawImage(
+                        signature,
+                        signatureXPositionSpinner.getValue(),
+                        signatureYPositionSpinner.getValue(),
+                        signatureWidthSpinner.getValue(),
+                        signatureHeightSpinner.getValue(),
+                        signatureFile.getName().substring(signatureFile.getName().length() - 3).equals("png") ?
+                                null : fxToSwingColor(postrBackgroundColor.getValue()), null
+                );
+            } catch (IOException e) {
+                addError("Could not load signature file + \"" + signatureFile.getPath() + "\"");
+                signatureLoaded = false;
+                throw new RuntimeException(e);
+            }
         }
 
         g.dispose();

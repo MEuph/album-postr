@@ -1045,7 +1045,7 @@
                     </VBox>
                 </TitledPane>
                 <HBox alignment="CENTER">
-                    <Button fx:id="addSigFromFileButton" mnemonicParsing="false" text="Add Signature From File" />
+                    <Button fx:id="loadSignatureButton" mnemonicParsing="false" text="Add Signature From File" />
                 </HBox>
             </VBox>
         </ScrollPane>
