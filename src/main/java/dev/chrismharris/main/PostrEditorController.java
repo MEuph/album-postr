@@ -28,6 +28,7 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -39,7 +40,6 @@ import java.util.concurrent.Executors;
 
 // TODO: Add track editing
 // TODO: Implement full size preview button
-// TODO: Implement save postr button
 public class PostrEditorController {
 
     @FXML
@@ -362,6 +362,8 @@ public class PostrEditorController {
 
     public File signatureFile;
 
+    public BufferedImage finalPostrImage;
+
     @FXML
     public void initialize() {
         String[] availableFontFamilyNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
@@ -416,6 +418,27 @@ public class PostrEditorController {
                 } catch (IOException e) {
                     addError("Could not load signature file + \"" + signatureFile.getPath() + "\"");
                     signatureLoaded = false;
+                }
+            }
+        });
+
+        savePostrButton.setOnAction(event -> {
+            final FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Postr");
+            fileChooser.setInitialDirectory(
+                    new File(System.getProperty("user.home"))
+            );
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("PNG (Recommended)", "*.png"),
+                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                    new FileChooser.ExtensionFilter("All Images", "*.*")
+            );
+            File file = fileChooser.showSaveDialog(loadSignatureButton.getScene().getWindow());
+            if (file != null) {
+                try {
+                    ImageIO.write(finalPostrImage, file.getName().substring(file.getName().length() - 3), file);
+                } catch (IOException e) {
+                    addError("Could not save image!\n" + e.getMessage());
                 }
             }
         });
@@ -949,6 +972,8 @@ public class PostrEditorController {
         if (!Objects.equals(errorMessage, "")) {
             showErrorMessage();
         }
+
+        finalPostrImage = img;
 
         previewCanvas.getGraphicsContext2D().drawImage(
                 SwingFXUtils.toFXImage(img, null), 0, 0, previewCanvas.getWidth(), previewCanvas.getHeight());
