@@ -28,7 +28,6 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -39,7 +38,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 // TODO: Add track editing
-// TODO: Implement full size preview button
 public class PostrEditorController {
 
     @FXML
@@ -62,8 +60,6 @@ public class PostrEditorController {
     public Canvas previewCanvas;
     @FXML
     public Button savePostrButton;
-    @FXML
-    public Button fullSizePreviewButton;
     @FXML
     public HBox postrBackgroundColorHBox;
     @FXML
@@ -362,7 +358,7 @@ public class PostrEditorController {
 
     public File signatureFile;
 
-    public BufferedImage finalPostrImage;
+    public static BufferedImage finalPostrImage;
 
     @FXML
     public void initialize() {

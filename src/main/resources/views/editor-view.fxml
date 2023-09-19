@@ -1035,7 +1035,7 @@
                         </TitledPane>
                     </VBox>
                 </TitledPane>
-                <TitledPane expanded="false" text="Edit Tracks">
+                <TitledPane expanded="false" text="Edit Tracks" visible="false">
                     <VBox spacing="10.0" styleClass="background_class">
                         <HBox alignment="CENTER" spacing="10.0">
                             <Button fx:id="addTrackButton" mnemonicParsing="false" text="Add Track" />
@@ -1044,17 +1044,14 @@
                         <TableView fx:id="trackTableView" prefWidth="200.0" />
                     </VBox>
                 </TitledPane>
-                <HBox alignment="CENTER">
-                    <Button fx:id="loadSignatureButton" mnemonicParsing="false" text="Add Signature From File" />
-                </HBox>
             </VBox>
         </ScrollPane>
     </AnchorPane>
     <VBox alignment="CENTER" spacing="10">
         <Canvas fx:id="previewCanvas" height="294.0" style="-: white;" width="220.0" />
         <HBox alignment="CENTER" spacing="10.0">
-            <Button fx:id="fullSizePreviewButton" mnemonicParsing="false" text="Full Size Preview" />
             <Button fx:id="savePostrButton" mnemonicParsing="false" text="Save Postr" />
+            <Button fx:id="loadSignatureButton" mnemonicParsing="false" text="Add Signature" />
         </HBox>
         <Button fx:id="regeneratePostrButton" mnemonicParsing="false" text="Regenerate Preview" />
     </VBox>
