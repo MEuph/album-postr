@@ -182,7 +182,7 @@ Project Link: [https://github.com/MEuph/album-postr](https://github.com/MEuph/al
 [issues-shield]: https://img.shields.io/github/issues/MEuph/album-postr.svg?style=for-the-badge
 [issues-url]: https://github.com/MEuph/album-postr/issues
 [license-shield]: https://img.shields.io/github/license/MEuph/album-postr.svg?style=for-the-badge
-[license-url]: https://github.com/MEuph/album-postr/blob/master/LICENSE.txt
+[license-url]: https://github.com/MEuph/album-postr/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/christopher-harris-73b279231
 [product-screenshot1]: screenshot1.png
