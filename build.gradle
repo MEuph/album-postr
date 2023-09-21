@@ -23,19 +23,18 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
-//mainClassName='dev.chrismharris.main.AlbumPostrApplication'
-//jar {
-//    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-//
-//    manifest {
-//        attributes 'Main-Class':'dev.chrismharris.main.AlbumPostrApplication'
-//    }
-//    from {
-//        configurations.runtimeClasspath.collect {
-//            it.isDirectory() ? it : zipTree(it)
-//        }
-//    }
-//}
+jar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+    manifest {
+        attributes 'Main-Class':'dev.chrismharris.main.Launcher'
+    }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
 
 test {
     useJUnitPlatform()
