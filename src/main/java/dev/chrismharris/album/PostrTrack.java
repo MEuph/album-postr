@@ -3,7 +3,7 @@ package dev.chrismharris.album;
 import dev.chrismharris.main.AlbumPostrApplication;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
+import com.wrapper.spotify.model_objects.specification.TrackSimplified;
 
 public class PostrTrack {
 

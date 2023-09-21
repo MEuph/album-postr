@@ -1016,11 +1016,15 @@ public class PostrEditorController {
 
     int parseWeight(String s) {
         if (s == null) return Font.PLAIN;
-        return switch (s) {
-            case "Bold" -> Font.BOLD;
-            case "Italic" -> Font.ITALIC;
-            case "ItalicBold" -> Font.BOLD | Font.ITALIC;
-            default -> Font.PLAIN;
-        };
+        switch (s) {
+            case "Bold":
+                return Font.BOLD;
+            case "Italic":
+                return Font.ITALIC;
+            case "ItalicBold":
+                return Font.BOLD | Font.ITALIC;
+            default:
+                return Font.PLAIN;
+        }
     }
 }

@@ -1,19 +1,18 @@
 package dev.chrismharris.album;
 
+import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
+import com.wrapper.spotify.model_objects.specification.Image;
+import com.wrapper.spotify.model_objects.specification.Paging;
+import com.wrapper.spotify.model_objects.specification.TrackSimplified;
+import com.wrapper.spotify.requests.data.albums.GetAlbumsTracksRequest;
 import dev.chrismharris.main.AlbumPostrApplication;
 import dev.chrismharris.main.IntroController;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
-import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
-import se.michaelthelin.spotify.model_objects.specification.Image;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
-import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
-import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
 
 import java.util.ArrayList;
 import java.util.StringJoiner;
-import java.util.concurrent.CompletableFuture;
 
 public class PostrAlbum {
 
@@ -115,6 +114,6 @@ public class PostrAlbum {
                 "\n\t" +
                 getReleaseDate() +
                 "\n\t" +
-                getAlbumArt().getImage().getUrl();
+                getAlbumArt().getImage().impl_getUrl();
     }
 }

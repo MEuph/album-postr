@@ -1,26 +1,41 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
+//    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 group = 'dev.chrismharris'
-version = '1.0-SNAPSHOT'
+version = '1.0'
+application.mainClass = 'dev.chrismharris.main.Launcher'
 
 repositories {
     mavenCentral()
 }
 
-javafx {
-    version="20"
-    modules=['javafx.controls', 'javafx.fxml', 'javafx.swing']
-}
+//javafx {
+//    version="20"
+//    modules=['javafx.controls', 'javafx.fxml', 'javafx.swing']
+//}
 
 dependencies {
-    implementation 'se.michaelthelin.spotify:spotify-web-api-java:8.0.0'
+    implementation 'se.michaelthelin.spotify:spotify-web-api-java:6.5.4'
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
+
+//mainClassName='dev.chrismharris.main.AlbumPostrApplication'
+//jar {
+//    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+//
+//    manifest {
+//        attributes 'Main-Class':'dev.chrismharris.main.AlbumPostrApplication'
+//    }
+//    from {
+//        configurations.runtimeClasspath.collect {
+//            it.isDirectory() ? it : zipTree(it)
+//        }
+//    }
+//}
 
 test {
     useJUnitPlatform()
