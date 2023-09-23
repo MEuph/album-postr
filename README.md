@@ -166,6 +166,7 @@ Project Link: [https://github.com/MEuph/album-postr](https://github.com/MEuph/al
 ## Acknowledgments
 
 * [Spotify API Wrapper for Java](https://github.com/spotify-web-api-java/spotify-web-api-java)
+* [Color Thief](https://github.com/SvenWoltmann/color-thief-java) by [Sven Woltmann](https://github.com/SvenWoltmann/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
