@@ -39,7 +39,7 @@
   <p align="center">
     An app for generating album posters that include an author's signature (if available), the color palette of the album art, the names of the songs in the album, and the year the album was released
     <br />
-    <br /
+    <br />
     <a href="https://github.com/MEuph/album-postr/issues">Report Bug</a>
     ·
     <a href="https://github.com/MEuph/album-postr/issues">Request Feature</a>
